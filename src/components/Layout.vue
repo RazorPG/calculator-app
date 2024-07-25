@@ -44,7 +44,7 @@
       </button>
     </div>
   </div>
-  <History :value="history"></History>
+  <History :value="history" />
 </template>
 
 <script>
@@ -60,6 +60,7 @@
       return {
         displayValue: '',
         history: [],
+        clearNextInput: false,
       }
     },
     computed: {
@@ -69,15 +70,23 @@
         // Hanya format bagian yang bukan operator
         const formattedParts = parts.map(part => {
           let [integerPart, dote, floatPart] = part.split(/([.])/)
+
+          // batasi panjang bagian integer
+          if (integerPart.length > 16) {
+            integerPart = integerPart.slice(0, 16)
+          }
+
           // format bagian integer
           integerPart = integerPart
-            .split('')
-            .reverse()
-            .map((char, index) =>
-              index % 3 === 0 && index !== 0 ? char + ',' : char
-            )
-            .reverse()
-            .join('')
+            ? integerPart
+                .split('')
+                .reverse()
+                .map((char, index) =>
+                  index % 3 === 0 && index !== 0 ? char + ',' : char
+                )
+                .reverse()
+                .join('')
+            : ''
           // gabungkan dengan float atau titik jika ada
           return floatPart
             ? `${integerPart}${dote}${floatPart}`
@@ -86,7 +95,9 @@
             : integerPart
         })
         // Gabungkan kembali nilai yang telah diformat
-        return formattedParts.join(' ')
+        return this.clearNextInput
+          ? formattedParts.join('')
+          : formattedParts.join(' ')
       },
     },
     mounted() {
@@ -96,7 +107,6 @@
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
-        console.log(key)
         if (key === ' ') {
           return
         } else if (!isNaN(key) || key === '.') {
@@ -121,6 +131,10 @@
         }
       },
       inputValue(val) {
+        if (this.clearNextInput) {
+          this.allClearValues()
+          this.clearNextInput = false
+        }
         // pisahkan berdasarkan operator
         let parts = this.displayValue.split(/[+\-*/]/)
         let lastPart = parts[parts.length - 1]
@@ -143,9 +157,17 @@
         this.displayValue = ''
       },
       removeLastValue() {
+        if (this.clearNextInput) {
+          this.allClearValues()
+          this.clearNextInput = false
+        }
         this.displayValue = this.displayValue.toString().slice(0, -1)
       },
       applyOperation(op) {
+        if (this.clearNextInput) {
+          this.allClearValues()
+          this.clearNextInput = false
+        }
         // Mengubah semua operasi yang telah diinputkan menjadi operasi machine
         try {
           let opMachine =
@@ -185,9 +207,13 @@
         ) {
           try {
             const result = eval(this.displayValue).toString()
+            if (result.includes('e')) {
+              this.displayValue = result
+              this.clearNextInput = true
+            }
             this.history.push(`${this.displayValue} = ${result}`)
             console.log(this.history)
-            this.displayValue = result
+            this.displayValue = Number(result).toString()
           } catch (err) {
             this.displayValue = 'Error'
           }
