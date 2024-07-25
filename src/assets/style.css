@@ -4,5 +4,5 @@
 
 
 .btn-cal {
-    @apply border-2 rounded-full border-slate-700 py-[1.4rem] bg-slate-300 transition-all duration-100 ease-out hover:bg-slate-500 hover:text-white hover:scale-105;
+    @apply border-2 rounded-full border-slate-700 shadow-inner-btn py-[1.4rem] bg-slate-300 transition-all duration-100 ease-out hover:bg-slate-500 hover:text-white active:scale-90;
 }
