@@ -9,52 +9,31 @@
         type="text"
         class="text-3xl w-full h-[3.8rem] p-3 rounded-lg resize-none"
         disabled
-        v-model="formattedDisplayValue"
+        :value="formattedDisplayValue"
       />
     </div>
-    <div class="grid grid-cols-4 gap-2 text-xl md:text-2xl font-bold">
-      <button class="btn-cal" @click="allClearValues">AC</button>
-      <div class="col-span-2"></div>
-      <button class="btn-cal" @click="removeLastValue">
-        <font-awesome-icon icon="delete-left" size="xl" />
-      </button>
-      <button class="btn-cal" @click="inputValue('1')">1</button>
-      <button class="btn-cal" @click="inputValue('2')">2</button>
-      <button class="btn-cal" @click="inputValue('3')">3</button>
-      <button class="btn-cal" @click="applyOperation('multiply')">
-        <font-awesome-icon icon="xmark" />
-      </button>
-      <button class="btn-cal" @click="inputValue('4')">4</button>
-      <button class="btn-cal" @click="inputValue('5')">5</button>
-      <button class="btn-cal" @click="inputValue('6')">6</button>
-      <button class="btn-cal" @click="applyOperation('divide')">
-        <font-awesome-icon icon="divide" />
-      </button>
-      <button class="btn-cal" @click="inputValue('7')">7</button>
-      <button class="btn-cal" @click="inputValue('8')">8</button>
-      <button class="btn-cal" @click="inputValue('9')">9</button>
-      <button class="btn-cal" @click="applyOperation('sum')">
-        <font-awesome-icon icon="plus" />
-      </button>
-      <button class="btn-cal" @click="inputValue('0')">0</button>
-      <button class="btn-cal" @click="equal">=</button>
-      <button class="btn-cal" @click="inputValue('.')">,</button>
-      <button class="btn-cal" @click="applyOperation('subtract')">
-        <font-awesome-icon icon="minus" />
-      </button>
-    </div>
+    <calc-control-panel
+      @updateDisplayValue="updateDisplayValue"
+      @addNewHistory="addNewHistory"
+      @updateNextClear="updateNextInput"
+      @allClearValuesPanel="clearAllValues"
+      :sendHistory="history"
+      :calcDisplayValue="displayValue"
+      :clearInputExp="clearNextInput"
+    />
   </div>
   <History :value="history" />
 </template>
 
 <script>
-  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
   import History from './History.vue'
+  import CalcControlPanel from './CalcControlPanel.vue'
+
   export default {
     name: 'Layout',
     components: {
-      FontAwesomeIcon,
       History,
+      CalcControlPanel,
     },
     data: function () {
       return {
@@ -65,18 +44,14 @@
     },
     computed: {
       formattedDisplayValue() {
-        // Pisahkan berdasarkan operator, dan simpan operatornya
         const parts = this.displayValue.split(/([+\-*/])/)
-        // Hanya format bagian yang bukan operator
         const formattedParts = parts.map(part => {
-          let [integerPart, dote, floatPart] = part.split(/([.])/)
+          let [integerPart, dot, floatPart] = part.split(/([.])/)
 
-          // batasi panjang bagian integer
           if (integerPart.length > 16) {
             integerPart = integerPart.slice(0, 16)
           }
 
-          // format bagian integer
           integerPart = integerPart
             ? integerPart
                 .split('')
@@ -87,137 +62,30 @@
                 .reverse()
                 .join('')
             : ''
-          // gabungkan dengan float atau titik jika ada
           return floatPart
-            ? `${integerPart}${dote}${floatPart}`
-            : dote
-            ? `${integerPart}${dote}`
+            ? `${integerPart}${dot}${floatPart}`
+            : dot
+            ? `${integerPart}${dot}`
             : integerPart
         })
-        // Gabungkan kembali nilai yang telah diformat
         return this.clearNextInput
           ? formattedParts.join('')
           : formattedParts.join(' ')
       },
     },
-    mounted() {
-      window.addEventListener('keydown', this.handleKeyInputValue)
-    },
     methods: {
-      handleKeyInputValue(event) {
-        // mengambil key dari keyboard
-        const key = event.key
-        if (key === ' ') {
-          return
-        } else if (!isNaN(key) || key === '.') {
-          return this.inputValue(key)
-        } else if (key == '=' || key == 'Enter') {
-          return this.equal()
-        } else {
-          switch (key) {
-            case 'Backspace':
-              return this.removeLastValue()
-            case '*':
-              return this.applyOperation('multiply')
-            case '/':
-              return this.applyOperation('divide')
-            case '+':
-              return this.applyOperation('sum')
-            case '-':
-              return this.applyOperation('subtract')
-            default:
-              break
-          }
-        }
+      updateDisplayValue(newVal) {
+        this.displayValue = newVal
       },
-      inputValue(val) {
-        if (this.clearNextInput) {
-          this.allClearValues()
-          this.clearNextInput = false
-        }
-        // pisahkan berdasarkan operator
-        let parts = this.displayValue.split(/[+\-*/]/)
-        let lastPart = parts[parts.length - 1]
-
-        if (val == '.') {
-          // cek bagian terakhir apakah sudah mengadung koma
-          this.displayValue += !lastPart.includes('.')
-            ? lastPart.length == 0
-              ? `0.`
-              : val
-            : ''
-        } else if (val == '0') {
-          this.displayValue +=
-            lastPart.includes('.') || !['.', '0'].includes(lastPart) ? val : ''
-        } else {
-          this.displayValue += val
-        }
+      addNewHistory(newVal) {
+        this.history.push(newVal)
       },
-      allClearValues() {
+      updateNextInput(newVal) {
+        this.clearNextInput = newVal
+      },
+      clearAllValues() {
         this.displayValue = ''
-      },
-      removeLastValue() {
-        if (this.clearNextInput) {
-          this.allClearValues()
-          this.clearNextInput = false
-        }
-        this.displayValue = this.displayValue.toString().slice(0, -1)
-      },
-      applyOperation(op) {
-        if (this.clearNextInput) {
-          this.allClearValues()
-          this.clearNextInput = false
-        }
-        // Mengubah semua operasi yang telah diinputkan menjadi operasi machine
-        try {
-          let opMachine =
-            op === 'multiply'
-              ? '*'
-              : op === 'divide'
-              ? '/'
-              : op === 'sum'
-              ? '+'
-              : op === 'subtract'
-              ? '-'
-              : null
-          let lastChar = this.displayValue.slice(-1)
-          if (opMachine !== null && this.displayValue !== '') {
-            if (
-              !['*', '/', '+', '-'].includes(lastChar) ||
-              (opMachine === '-' && lastChar === '*') ||
-              (opMachine === '-' && lastChar === '/')
-            ) {
-              this.displayValue += opMachine
-              this.isOperator = true
-            }
-          } else if (opMachine === '-' && !['-', '/', '+'].includes(lastChar))
-            this.displayValue += opMachine
-          this.isOperator = true
-        } catch (err) {
-          // kalau error muncul peringatan ini
-          console.error(err, 'sepertinya operasi ada kesalahan')
-        }
-      },
-      equal() {
-        const hasOperator = /[+\-*/]/.test(this.displayValue)
-        if (
-          this.displayValue !== '' &&
-          !['*', '/', '+', '-'].includes(this.displayValue.slice(-1)) &&
-          hasOperator
-        ) {
-          try {
-            const result = eval(this.displayValue).toString()
-            if (result.includes('e')) {
-              this.displayValue = result
-              this.clearNextInput = true
-            }
-            this.history.push(`${this.displayValue} = ${result}`)
-            console.log(this.history)
-            this.displayValue = Number(result).toString()
-          } catch (err) {
-            this.displayValue = 'Error'
-          }
-        }
+        this.clearNextInput = false
       },
     },
   }
