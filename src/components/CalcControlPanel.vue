@@ -2,28 +2,114 @@
   <div class="grid grid-cols-4 gap-2 text-xl md:text-2xl font-bold">
     <button class="btn-cal" @click="allClearValuesPanel">AC</button>
     <div class="col-span-2"></div>
-    <button class="btn-cal" @click="removeLastValue">
+    <button
+      class="btn-cal"
+      @click="removeLastValue"
+      @mousedown="startRepeating('removeLastValue')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
       <font-awesome-icon icon="delete-left" size="xl" />
     </button>
-    <button class="btn-cal" @click="inputValuePanel('1')">1</button>
-    <button class="btn-cal" @click="inputValuePanel('2')">2</button>
-    <button class="btn-cal" @click="inputValuePanel('3')">3</button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('1')"
+      @mousedown="startRepeating('inputValuePanel', '1')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      1
+    </button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('2')"
+      @mousedown="startRepeating('inputValuePanel', '2')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      2
+    </button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('3')"
+      @mousedown="startRepeating('inputValuePanel', '3')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      3
+    </button>
     <button class="btn-cal" @click="applyOperationPanel('multiply')">
       <font-awesome-icon icon="xmark" />
     </button>
-    <button class="btn-cal" @click="inputValuePanel('4')">4</button>
-    <button class="btn-cal" @click="inputValuePanel('5')">5</button>
-    <button class="btn-cal" @click="inputValuePanel('6')">6</button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('4')"
+      @mousedown="startRepeating('inputValuePanel', '4')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      4
+    </button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('5')"
+      @mousedown="startRepeating('inputValuePanel', '5')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      5
+    </button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('6')"
+      @mousedown="startRepeating('inputValuePanel', '6')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      6
+    </button>
     <button class="btn-cal" @click="applyOperationPanel('divide')">
       <font-awesome-icon icon="divide" />
     </button>
-    <button class="btn-cal" @click="inputValuePanel('7')">7</button>
-    <button class="btn-cal" @click="inputValuePanel('8')">8</button>
-    <button class="btn-cal" @click="inputValuePanel('9')">9</button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('7')"
+      @mousedown="startRepeating('inputValuePanel', '7')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      7
+    </button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('8')"
+      @mousedown="startRepeating('inputValuePanel', '8')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      8
+    </button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('9')"
+      @mousedown="startRepeating('inputValuePanel', '9')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      9
+    </button>
     <button class="btn-cal" @click="applyOperationPanel('sum')">
       <font-awesome-icon icon="plus" />
     </button>
-    <button class="btn-cal" @click="inputValuePanel('0')">0</button>
+    <button
+      class="btn-cal"
+      @click="inputValuePanel('0')"
+      @mousedown="startRepeating('inputValuePanel', '0')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      0
+    </button>
     <button class="btn-cal" @click="equal">=</button>
     <button class="btn-cal" @click="inputValuePanel('.')">,</button>
     <button class="btn-cal" @click="applyOperationPanel('subtract')">
@@ -52,15 +138,89 @@
         type: Array,
         required: true,
       },
-      boolExecution: {
-        type: Boolean,
-        required: true,
-      },
+    },
+    data() {
+      return {
+        repeatInterval: null,
+      }
     },
     mounted() {
       window.addEventListener('keydown', this.handleKeyInputValue)
     },
+    computed: {
+      formattedDisplayValue() {
+        console.log(this.sendHistory)
+        let display = this.calcDisplayValue
+        let displayPart = display.split(/([+\-*/])/)
+        return displayPart.map(char => {
+          let result = {}
+          // jika charnya adalah operator (+ - * / )
+          if (['+', '-', '*', '/'].includes(char)) {
+            result.isIcon = true
+            result.component = 'font-awesome-icon'
+            result.icon =
+              char === '+'
+                ? 'plus'
+                : char === '-'
+                ? 'minus'
+                : char === '/'
+                ? 'divide'
+                : 'xmark'
+          }
+          // jika charnya bukanlah operator
+          else {
+            let [integerPart, dote, floatPart] = char.split(/([.])/)
+            if (char.includes('.')) {
+              dote = ','
+            }
+            if (integerPart.length > 16) {
+              integerPart = integerPart.slice(0, 16)
+            }
+
+            integerPart = integerPart
+              ? integerPart
+                  .split('')
+                  .reverse()
+                  .map((char, index) =>
+                    index % 3 === 0 && index !== 0 ? char + '.' : char
+                  )
+                  .reverse()
+                  .join('')
+              : ''
+
+            result.isIcon = false
+            result.value = floatPart
+              ? `${integerPart}${dote}${floatPart}`
+              : dote
+              ? `${integerPart}${dote}`
+              : integerPart
+          }
+          return result
+        })
+      },
+    },
+    watch: {
+      formattedDisplayValue: {
+        handler(newValue) {
+          this.$emit('watchFormattedDisplayValue', newValue)
+          console.log(this.calcDisplayValue)
+        },
+        immediate: true,
+      },
+    },
     methods: {
+      startRepeating(method, value) {
+        this.repeatInterval = setInterval(() => {
+          if (value !== undefined) {
+            this[method](value)
+          } else {
+            this[method]()
+          }
+        }, 100)
+      },
+      stopRepeating() {
+        clearInterval(this.repeatInterval)
+      },
       emitUpdateDisplay(newVal) {
         this.$emit('updateDisplayValue', newVal)
       },
@@ -76,13 +236,15 @@
       emitIsExecution(newVal) {
         this.$emit('updateExecution', newVal)
       },
+      emitFormatted(newVal) {
+        this.$emit('updateFormatted', newVal)
+      },
+
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
         if (key === ' ') {
           return
-        } else if (key === ',') {
-          return this.inputValuePanel('.')
         } else if (!isNaN(key)) {
           return this.inputValuePanel(key)
         } else if (key == '=' || key == 'Enter') {
@@ -99,6 +261,8 @@
               return this.applyOperationPanel('sum')
             case '-':
               return this.applyOperationPanel('subtract')
+            case ',':
+              return this.inputValuePanel('.')
             default:
               break
           }
@@ -186,6 +350,7 @@
         }
       },
       equal() {
+        let history = this.sendHistory
         let currentDisplayValue = this.calcDisplayValue
         let boolNextInput = this.clearInputExp
         let result = null
@@ -193,16 +358,14 @@
         // Pisahkan currentDisplayValue berdasarkan operator untuk cek jumlah operand
         const operands = currentDisplayValue.split(/[+\-*/]/)
 
-        // Jika dua operand dengan yang pertama kosong (misalnya, input "-5"), hentikan eksekusi
-        if (operands.length === 2 && operands[0] === '') {
-          return
-        }
         // tes apakah ada operator di dalam currentDisplayValue
         const hasOperator = /[+\-*/]/.test(currentDisplayValue)
         if (
           currentDisplayValue !== '' &&
           !['*', '/', '+', '-'].includes(currentDisplayValue.slice(-1)) &&
-          hasOperator
+          hasOperator &&
+          operands.length >= 2 &&
+          operands[0] !== ''
         ) {
           try {
             result = eval(currentDisplayValue).toString()
@@ -210,6 +373,11 @@
               boolNextInput = true
             }
             currentDisplayValue = result
+            let emitHistory = history.push({
+              value: result,
+              formatted: this.formattedDisplayValue,
+            })
+            this.emitNewHistory(emitHistory)
           } catch (err) {
             console.error('Error caught:', err.message)
             currentDisplayValue = 'Error'

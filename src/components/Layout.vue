@@ -28,11 +28,10 @@
       @addNewHistory="addNewHistory"
       @updateNextClear="updateNextInput"
       @allClearValuesPanel="clearAllValues"
-      @updateExecution="updateBoolExecution"
+      @watchFormattedDisplayValue="updateFormattedDisplayValue"
       :sendHistory="history"
       :calcDisplayValue="displayValue"
       :clearInputExp="clearNextInput"
-      :boolExecution="isExecution"
     />
   </div>
   <History :value="history" />
@@ -55,71 +54,19 @@
         displayValue: '',
         history: [],
         clearNextInput: false,
-        isExecution: true,
+        formattedDisplayValue: [],
       }
-    },
-    computed: {
-      formattedDisplayValue() {
-        let display = this.displayValue
-        let displayPart = display.split(/([+\-*/])/)
-        return displayPart.map(char => {
-          let result = {}
-          // jika charnya adalah operator (+ - * / )
-          if (['+', '-', '*', '/'].includes(char)) {
-            result.isIcon = true
-            result.component = 'font-awesome-icon'
-            result.icon =
-              char === '+'
-                ? 'plus'
-                : char === '-'
-                ? 'minus'
-                : char === '/'
-                ? 'divide'
-                : 'xmark'
-          }
-          // jika charnya bukanlah operator
-          else {
-            let [integerPart, dote, floatPart] = char.split(/([.])/)
-            if (char.includes('.')) {
-              dote = ','
-            }
-            if (integerPart.length > 16) {
-              integerPart = integerPart.slice(0, 16)
-            }
-
-            integerPart = integerPart
-              ? integerPart
-                  .split('')
-                  .reverse()
-                  .map((char, index) =>
-                    index % 3 === 0 && index !== 0 ? char + '.' : char
-                  )
-                  .reverse()
-                  .join('')
-              : ''
-
-            result.isIcon = false
-            result.value = floatPart
-              ? `${integerPart}${dote}${floatPart}`
-              : dote
-              ? `${integerPart}${dote}`
-              : integerPart
-          }
-          if (!this.isExecution) {
-            this.updateBoolExecution(true)
-            this.history.push(result)
-            console.log(this.history)
-          }
-          return result
-        })
-      },
     },
     methods: {
       updateDisplayValue(newVal) {
         this.displayValue = newVal
       },
       addNewHistory(newVal) {
-        this.history.push(newVal)
+        const historyItem = {
+          value: newVal,
+          formatted: this.formattedDisplayValue,
+        }
+        this.history.push(historyItem)
       },
       updateNextInput(newVal) {
         this.clearNextInput = newVal
@@ -130,6 +77,9 @@
       },
       updateBoolExecution(newVal) {
         this.isExecution = newVal
+      },
+      updateFormattedDisplayValue(newVal) {
+        this.formattedDisplayValue = newVal
       },
     },
   }
