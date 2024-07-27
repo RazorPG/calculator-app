@@ -52,6 +52,10 @@
         type: Array,
         required: true,
       },
+      boolExecution: {
+        type: Boolean,
+        required: true,
+      },
     },
     mounted() {
       window.addEventListener('keydown', this.handleKeyInputValue)
@@ -69,12 +73,17 @@
       emitClearValuesPanel() {
         this.$emit('allClearValuesPanel')
       },
+      emitIsExecution(newVal) {
+        this.$emit('updateExecution', newVal)
+      },
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
         if (key === ' ') {
           return
-        } else if (!isNaN(key) || key === '.') {
+        } else if (key === ',') {
+          return this.inputValuePanel('.')
+        } else if (!isNaN(key)) {
           return this.inputValuePanel(key)
         } else if (key == '=' || key == 'Enter') {
           return this.equal()
@@ -177,33 +186,36 @@
         }
       },
       equal() {
-        let newVal = this.calcDisplayValue
-        let newHistory = this.sendHistory
+        let currentDisplayValue = this.calcDisplayValue
         let boolNextInput = this.clearInputExp
-        const hasOperator = /[+\-*/]/.test(newVal)
+        let result = null
+
+        // Pisahkan currentDisplayValue berdasarkan operator untuk cek jumlah operand
+        const operands = currentDisplayValue.split(/[+\-*/]/)
+
+        // Jika dua operand dengan yang pertama kosong (misalnya, input "-5"), hentikan eksekusi
+        if (operands.length === 2 && operands[0] === '') {
+          return
+        }
+        // tes apakah ada operator di dalam currentDisplayValue
+        const hasOperator = /[+\-*/]/.test(currentDisplayValue)
         if (
-          newVal !== '' &&
-          !['*', '/', '+', '-'].includes(newVal.slice(-1)) &&
+          currentDisplayValue !== '' &&
+          !['*', '/', '+', '-'].includes(currentDisplayValue.slice(-1)) &&
           hasOperator
         ) {
           try {
-            console.log('Before eval:', typeof newVal, newVal)
-            const result = eval(newVal).toString()
-            console.log('after eval:', typeof newVal, newVal)
+            result = eval(currentDisplayValue).toString()
             if (result.includes('e')) {
               boolNextInput = true
             }
-            newHistory.push(`${newVal} = ${result}`)
-            newVal = result
+            currentDisplayValue = result
           } catch (err) {
             console.error('Error caught:', err.message)
-            newVal = 'Error'
+            currentDisplayValue = 'Error'
           }
-        } else {
-          newVal = 'Error'
         }
-        this.emitUpdateDisplay(newVal)
-        this.emitNewHistory(newHistory)
+        this.emitUpdateDisplay(currentDisplayValue)
         this.emitIsNextClear(boolNextInput)
       },
     },

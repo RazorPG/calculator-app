@@ -1,5 +1,5 @@
 <template>
-  <div class="text-3xl md:text-5xl font-bold mb-6 md:mb-8">
+  <div class="text-4xl md:text-5xl font-bold mb-6 md:mb-8">
     <h1>MY CALCULATOR APP</h1>
   </div>
   <Layout />
