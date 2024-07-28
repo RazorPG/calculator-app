@@ -25,16 +25,22 @@
     </div>
     <calc-control-panel
       @updateDisplayValue="updateDisplayValue"
-      @addNewHistory="addNewHistory"
       @updateNextClear="updateNextInput"
+      @updateStatusCalculation="updateStatusCalculation"
+      @addNewHistory="addNewHistory"
       @allClearValuesPanel="clearAllValues"
       @watchFormattedDisplayValue="updateFormattedDisplayValue"
       :sendHistory="history"
       :calcDisplayValue="displayValue"
       :clearInputExp="clearNextInput"
+      :statusCalculation="statusCalculation"
     />
   </div>
-  <History :value="history" />
+  <History
+    :track="history"
+    @updateTrack="updateTrack"
+    @cloneDisplay="updateDisplayValue"
+  />
 </template>
 
 <script>
@@ -53,6 +59,7 @@
       return {
         displayValue: '',
         history: [],
+        statusCalculation: false,
         clearNextInput: false,
         formattedDisplayValue: [],
       }
@@ -63,8 +70,13 @@
       },
       addNewHistory(newVal) {
         const historyItem = {
-          value: newVal,
-          formatted: this.formattedDisplayValue,
+          value: {
+            calculation: this.displayValue,
+            result: newVal,
+          },
+          format: {
+            calculation: this.formattedDisplayValue,
+          },
         }
         this.history.push(historyItem)
       },
@@ -80,6 +92,12 @@
       },
       updateFormattedDisplayValue(newVal) {
         this.formattedDisplayValue = newVal
+      },
+      updateStatusCalculation(newVal) {
+        this.statusCalculation = newVal
+      },
+      updateTrack(newVal) {
+        this.history = newVal
       },
     },
   }

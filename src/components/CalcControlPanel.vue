@@ -120,6 +120,8 @@
 
 <script>
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  import Decimal from 'decimal.js'
+
   export default {
     name: 'calc-control-panel',
     components: {
@@ -131,6 +133,10 @@
         required: true,
       },
       clearInputExp: {
+        type: Boolean,
+        required: true,
+      },
+      statusCalculation: {
         type: Boolean,
         required: true,
       },
@@ -153,6 +159,7 @@
         let display = this.calcDisplayValue
         let displayPart = display.split(/([+\-*/])/)
         return displayPart.map(char => {
+          console.log(char)
           let result = {}
           // jika charnya adalah operator (+ - * / )
           if (['+', '-', '*', '/'].includes(char)) {
@@ -166,6 +173,11 @@
                 : char === '/'
                 ? 'divide'
                 : 'xmark'
+          }
+          // jika charnya adalah 'Infinity'
+          else if (char.includes('Infinity')) {
+            result.isIcon = false
+            result.value = char
           }
           // jika charnya bukanlah operator
           else {
@@ -192,7 +204,7 @@
             result.value = floatPart
               ? `${integerPart}${dote}${floatPart}`
               : dote
-              ? `${integerPart}${dote}`
+              ? `${integerPart}${dote}0`
               : integerPart
           }
           return result
@@ -202,8 +214,15 @@
     watch: {
       formattedDisplayValue: {
         handler(newValue) {
+          let history = this.sendHistory
+          let status = this.statusCalculation
           this.$emit('watchFormattedDisplayValue', newValue)
-          console.log(this.calcDisplayValue)
+          if (status) {
+            status = false
+            this.emitStatusCalculation(status)
+            history[history.length - 1].format.result =
+              this.formattedDisplayValue
+          }
         },
         immediate: true,
       },
@@ -233,13 +252,9 @@
       emitClearValuesPanel() {
         this.$emit('allClearValuesPanel')
       },
-      emitIsExecution(newVal) {
-        this.$emit('updateExecution', newVal)
+      emitStatusCalculation(newVal) {
+        this.$emit('updateStatusCalculation', newVal)
       },
-      emitFormatted(newVal) {
-        this.$emit('updateFormatted', newVal)
-      },
-
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
@@ -247,7 +262,7 @@
           return
         } else if (!isNaN(key)) {
           return this.inputValuePanel(key)
-        } else if (key == '=' || key == 'Enter') {
+        } else if (key === '=' || key === 'Enter') {
           return this.equal()
         } else {
           switch (key) {
@@ -271,6 +286,7 @@
       inputValuePanel(val) {
         let newValue = this.calcDisplayValue
         let boolNextInput = this.clearInputExp
+
         if (boolNextInput) {
           boolNextInput = false
           return this.emitClearValuesPanel()
@@ -279,10 +295,15 @@
         let parts = newValue.split(/[+\-*/]/)
         let lastPart = parts[parts.length - 1]
 
-        if (val == '.') {
+        if (lastPart === '0' && val !== '.') {
+          // Jika bagian terakhir adalah 0 dan val bukan koma, return
+          return
+        }
+
+        if (val === '.') {
           // cek bagian terakhir apakah sudah mengadung koma
           newValue += !lastPart.includes('.')
-            ? lastPart.length == 0
+            ? lastPart.length === 0
               ? `0.`
               : val
             : ''
@@ -353,31 +374,49 @@
         let history = this.sendHistory
         let currentDisplayValue = this.calcDisplayValue
         let boolNextInput = this.clearInputExp
+        let status = this.statusCalculation
         let result = null
 
         // Pisahkan currentDisplayValue berdasarkan operator untuk cek jumlah operand
         const operands = currentDisplayValue.split(/[+\-*/]/)
+        if (operands.length == 2 && operands[0] === '') {
+          return
+        }
 
         // tes apakah ada operator di dalam currentDisplayValue
         const hasOperator = /[+\-*/]/.test(currentDisplayValue)
         if (
           currentDisplayValue !== '' &&
           !['*', '/', '+', '-'].includes(currentDisplayValue.slice(-1)) &&
-          hasOperator &&
-          operands.length >= 2 &&
-          operands[0] !== ''
+          hasOperator
         ) {
           try {
-            result = eval(currentDisplayValue).toString()
-            if (result.includes('e')) {
+            result = new Decimal(eval(currentDisplayValue))
+              .toNumber()
+              .toString()
+            if (result.includes('e') || result === 'Infinity') {
               boolNextInput = true
             }
             currentDisplayValue = result
-            let emitHistory = history.push({
-              value: result,
-              formatted: this.formattedDisplayValue,
-            })
-            this.emitNewHistory(emitHistory)
+            console.log(currentDisplayValue, 'cek apakah Infinity')
+            if (
+              currentDisplayValue !== 'Infinity' &&
+              !currentDisplayValue.includes('e')
+            ) {
+              status = true
+              this.emitStatusCalculation(status)
+              let emitHistory = history.push({
+                value: {
+                  calculation: this.calcDisplayValue,
+                  result: currentDisplayValue,
+                },
+                format: {
+                  calculation: this.formattedDisplayValue,
+                  result: '',
+                },
+              })
+              this.emitNewHistory(emitHistory)
+            }
           } catch (err) {
             console.error('Error caught:', err.message)
             currentDisplayValue = 'Error'
