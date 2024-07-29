@@ -36,9 +36,7 @@
       :statusCalculation="statusCalculationLayout"
     />
   </div>
-  <History :track="trackRecord" />
-
-  <!-- @cloneDisplay="emitUpdateDisplayValue" -->
+  <History :track="trackRecord" @cloneDisplay="emitUpdateDisplayValue" />
 </template>
 
 <script>

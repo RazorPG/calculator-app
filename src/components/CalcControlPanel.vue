@@ -150,6 +150,7 @@
         repeatInterval: null,
       }
     },
+
     mounted() {
       window.addEventListener('keydown', this.handleKeyInputValue)
     },
@@ -212,21 +213,29 @@
     watch: {
       formattedDisplayValue: {
         handler(newValue) {
-          // let history = this.sendHistory
+          let history = this.sendHistory
           let status = this.statusCalculation
           console.log(status)
           this.$emit('watchFormattedDisplayValue', newValue)
-          // if (status) {
-          //   status = false
-          //   console.log('history berhasil di push')
-          //   this.emitStatusCalculation(status)
-          //   history[history.length - 1].format.result =
-          //     this.formattedDisplayValue
-          // }
+          if (status) {
+            status = false
+            console.log('history berhasil di push')
+            this.emitStatusCalculation(status)
+            history[history.length - 1].format.result =
+              this.formattedDisplayValue
+          }
         },
         immediate: true,
       },
     },
+    emits: [
+      'updateDisplayValue',
+      'watchFormattedDisplayValue',
+      'updateNextClear',
+      'addNewHistory',
+      'allClearValuesPanel',
+      'updateStatusCalculation',
+    ],
     methods: {
       startRepeating(method, value) {
         this.repeatInterval = setInterval(() => {

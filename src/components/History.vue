@@ -68,7 +68,7 @@
     name: 'history',
     components: FontAwesomeIcon,
     props: ['track'],
-    // emits: ['cloneDisplay'],
+    emits: ['cloneDisplay'],
     methods: {
       removeHistory(index) {
         let track = this.track
@@ -79,9 +79,9 @@
         let result = history.value.result
         this.emitUpdateDisplay(result)
       },
-      // emitUpdateDisplay(newVal) {
-      //   this.$emit('cloneDisplay', newVal)
-      // },
+      emitUpdateDisplay(newVal) {
+        this.$emit('cloneDisplay', newVal)
+      },
     },
   }
 </script>
