@@ -246,8 +246,8 @@
       emitIsNextClear(newVal) {
         this.$emit('updateNextClear', newVal)
       },
-      emitNewHistory(newVal) {
-        this.$emit('addNewhistory', newVal)
+      emitPushHistory(newVal) {
+        this.$emit('addNewHistory', newVal)
       },
       emitClearValuesPanel() {
         this.$emit('allClearValuesPanel')
@@ -415,7 +415,7 @@
                   result: '',
                 },
               })
-              this.emitNewHistory(emitHistory)
+              this.emitPushHistory(emitHistory)
             }
           } catch (err) {
             console.error('Error caught:', err.message)

@@ -27,7 +27,7 @@
       @updateDisplayValue="updateDisplayValue"
       @updateNextClear="updateNextInput"
       @updateStatusCalculation="updateStatusCalculation"
-      @addNewHistory="addNewHistory"
+      @addNewhistory="addNewHistoryApp"
       @allClearValuesPanel="clearAllValues"
       @watchFormattedDisplayValue="updateFormattedDisplayValue"
       :sendHistory="history"
@@ -68,7 +68,7 @@
       updateDisplayValue(newVal) {
         this.displayValue = newVal
       },
-      addNewHistory(newVal) {
+      addNewHistoryApp(newVal) {
         const historyItem = {
           value: {
             calculation: this.displayValue,
