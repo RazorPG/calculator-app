@@ -155,11 +155,9 @@
     },
     computed: {
       formattedDisplayValue() {
-        console.log(this.sendHistory)
         let display = this.calcDisplayValue
         let displayPart = display.split(/([+\-*/])/)
         return displayPart.map(char => {
-          console.log(char)
           let result = {}
           // jika charnya adalah operator (+ - * / )
           if (['+', '-', '*', '/'].includes(char)) {
@@ -214,15 +212,17 @@
     watch: {
       formattedDisplayValue: {
         handler(newValue) {
-          let history = this.sendHistory
+          // let history = this.sendHistory
           let status = this.statusCalculation
+          console.log(status)
           this.$emit('watchFormattedDisplayValue', newValue)
-          if (status) {
-            status = false
-            this.emitStatusCalculation(status)
-            history[history.length - 1].format.result =
-              this.formattedDisplayValue
-          }
+          // if (status) {
+          //   status = false
+          //   console.log('history berhasil di push')
+          //   this.emitStatusCalculation(status)
+          //   history[history.length - 1].format.result =
+          //     this.formattedDisplayValue
+          // }
         },
         immediate: true,
       },
@@ -247,7 +247,7 @@
         this.$emit('updateNextClear', newVal)
       },
       emitNewHistory(newVal) {
-        this.$emit('addNewhistory', newVal)
+        this.$emit('addNewHistory', newVal)
       },
       emitClearValuesPanel() {
         this.$emit('allClearValuesPanel')

@@ -9,7 +9,7 @@
         class="text-3xl w-full h-[3.8rem] p-3 rounded-lg resize-none bg-white overflow-y-auto text-end"
       >
         <span
-          v-for="(char, index) in formattedDisplayValue"
+          v-for="(char, index) in formattedDisplayLayout"
           :key="index"
           class="text-end"
         >
@@ -24,23 +24,21 @@
       </div>
     </div>
     <calc-control-panel
-      @updateDisplayValue="updateDisplayValue"
-      @updateNextClear="updateNextInput"
-      @updateStatusCalculation="updateStatusCalculation"
-      @addNewHistory="addNewHistory"
-      @allClearValuesPanel="clearAllValues"
-      @watchFormattedDisplayValue="updateFormattedDisplayValue"
-      :sendHistory="history"
-      :calcDisplayValue="displayValue"
-      :clearInputExp="clearNextInput"
-      :statusCalculation="statusCalculation"
+      @updateDisplayValue="emitUpdateDisplayValue"
+      @updateNextClear="emitUpdateNextInput"
+      @updateStatusCalculation="emitUpdateStatusCalculation"
+      @addNewHistory="emitUpdateHistory"
+      @allClearValuesPanel="emitClearAllValue"
+      @watchFormattedDisplayValue="emitUpdateFormattedDisplayValue"
+      :sendHistory="historyLayout"
+      :calcDisplayValue="displayValueLayout"
+      :clearInputExp="nextInputLayout"
+      :statusCalculation="statusCalculationLayout"
     />
   </div>
-  <History
-    :track="history"
-    @updateTrack="updateTrack"
-    @cloneDisplay="updateDisplayValue"
-  />
+  <History :track="trackRecord" />
+
+  <!-- @cloneDisplay="emitUpdateDisplayValue" -->
 </template>
 
 <script>
@@ -55,49 +53,40 @@
       CalcControlPanel,
       FontAwesomeIcon,
     },
-    data: function () {
-      return {
-        displayValue: '',
-        history: [],
-        statusCalculation: false,
-        clearNextInput: false,
-        formattedDisplayValue: [],
-      }
+    emits: [
+      'updateDisplayValueApp',
+      'updateHistoryApp',
+      'updateStatusCalculationApp',
+      'updateNextInputApp',
+      'clearAllValuesApp',
+      'updateFormattedDisplayApp',
+    ],
+    props: {
+      displayValueLayout: String,
+      historyLayout: Array,
+      statusCalculationLayout: Boolean,
+      nextInputLayout: Boolean,
+      formattedDisplayLayout: Array,
+      trackRecord: Array,
     },
     methods: {
-      updateDisplayValue(newVal) {
-        this.displayValue = newVal
+      emitUpdateDisplayValue(newVal) {
+        this.$emit('updateDisplayValueApp', newVal)
       },
-      addNewHistory(newVal) {
-        const historyItem = {
-          value: {
-            calculation: this.displayValue,
-            result: newVal,
-          },
-          format: {
-            calculation: this.formattedDisplayValue,
-          },
-        }
-        this.history.push(historyItem)
+      emitUpdateHistory(newVal) {
+        this.$emit('updateHistoryApp', newVal)
       },
-      updateNextInput(newVal) {
-        this.clearNextInput = newVal
+      emitUpdateStatusCalculation(newVal) {
+        this.$emit('updateStatusCalculationApp', newVal)
       },
-      clearAllValues() {
-        this.displayValue = ''
-        this.clearNextInput = false
+      emitUpdateNextInput(newVal) {
+        this.$emit('updateNextInputApp', newVal)
       },
-      updateBoolExecution(newVal) {
-        this.isExecution = newVal
+      emitClearAllValue() {
+        this.$emit('clearAllValuesApp')
       },
-      updateFormattedDisplayValue(newVal) {
-        this.formattedDisplayValue = newVal
-      },
-      updateStatusCalculation(newVal) {
-        this.statusCalculation = newVal
-      },
-      updateTrack(newVal) {
-        this.history = newVal
+      emitUpdateFormattedDisplayValue(newVal) {
+        this.$emit('updateFormattedDisplayApp', newVal)
       },
     },
   }
