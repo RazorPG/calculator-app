@@ -1,12 +1,11 @@
 <template>
   <div
-    class="mt-4 text-start mx-auto max-w-[30rem] bg-slate-600 p-4 rounded-lg shadow-lg"
-    v-if="track.length"
+    class="my-4 text-start mx-auto max-w-[30rem] bg-slate-600 p-4 rounded-lg shadow-lg"
   >
     <h2 class="text-center mb-5 text-3xl text-white">HISTORY</h2>
     <div class="text-lg text-start flex flex-col gap-2">
       <div
-        v-for="(historyItem, index) in track"
+        v-for="(historyItem, index) in historyLayout"
         :key="index"
         class="text-black bg-white w-full p-3 rounded-lg flex justify-between items-center"
       >
@@ -15,31 +14,34 @@
           >{{ index + 1 }}</span
         >
         <div class="w-full">
-          <template
-            v-for="(calculationItem, subIndex) in historyItem.format
-              .calculation"
-            :key="subIndex"
-          >
-            <component
-              class="mx-2"
-              :is="calculationItem.component"
-              :icon="calculationItem.icon"
-              v-if="calculationItem.isIcon"
-            />
-            <span v-else>{{ calculationItem.value }}</span>
-          </template>
-          <span> = </span>
-          <template
-            v-for="(resultItem, resIndex) in historyItem.format.result"
-            :key="resIndex"
-          >
-            <component
-              :is="resultItem.component"
-              :icon="resultItem.icon"
-              v-if="resultItem.isIcon"
-            />
-            <span>{{ resultItem.value }}</span>
-          </template>
+          <div class="inline-block text-sm">
+            <template
+              v-for="(calculationItem, subIndex) in historyItem.format
+                .calculation"
+              :key="subIndex"
+            >
+              <component
+                class="mx-2"
+                :is="calculationItem.component"
+                :icon="calculationItem.icon"
+                v-if="calculationItem.isIcon"
+              />
+              <span v-else>{{ calculationItem.value }}</span>
+            </template>
+          </div>
+          <div class="block font-bold">
+            <template
+              v-for="(resultItem, resIndex) in historyItem.format.result"
+              :key="resIndex"
+            >
+              <component
+                :is="resultItem.component"
+                :icon="resultItem.icon"
+                v-if="resultItem.isIcon"
+              />
+              <span>{{ resultItem.value }}</span>
+            </template>
+          </div>
         </div>
         <button
           class="bg-slate-500 text-slate-300 py-3 px-5 rounded-lg me-2 hover:text-slate-700 hover:bg-slate-300 shadow-xl"
@@ -64,24 +66,20 @@
   export default {
     name: 'history',
     components: FontAwesomeIcon,
-    props: ['track'],
+    props: ['historyLayout'],
+    emits: ['updateDisplayValueApp'],
     methods: {
       removeHistory(index) {
-        let track = this.track
+        let track = this.historyLayout
         track.splice(index, 1)
-        this.emitUpdateTrack(track)
-        console.log(this.track)
       },
       copyHistory(index) {
-        let history = this.track[index]
+        let history = this.historyLayout[index]
         let result = history.value.result
         this.emitUpdateDisplay(result)
       },
-      emitUpdateTrack(newVal) {
-        this.$emit('updateTrack', newVal)
-      },
       emitUpdateDisplay(newVal) {
-        this.$emit('cloneDisplay', newVal)
+        this.$emit('updateDisplayValueApp', newVal)
       },
     },
   }

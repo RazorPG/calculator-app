@@ -9,7 +9,7 @@
         class="text-3xl w-full h-[3.8rem] p-3 rounded-lg resize-none bg-white overflow-y-auto text-end"
       >
         <span
-          v-for="(char, index) in formattedDisplayValue"
+          v-for="(char, index) in formattedDisplayLayout"
           :key="index"
           class="text-end"
         >
@@ -24,80 +24,58 @@
       </div>
     </div>
     <calc-control-panel
-      @updateDisplayValue="updateDisplayValue"
-      @updateNextClear="updateNextInput"
-      @updateStatusCalculation="updateStatusCalculation"
-      @addNewhistory="addNewHistoryApp"
-      @allClearValuesPanel="clearAllValues"
-      @watchFormattedDisplayValue="updateFormattedDisplayValue"
-      :sendHistory="history"
-      :calcDisplayValue="displayValue"
-      :clearInputExp="clearNextInput"
-      :statusCalculation="statusCalculation"
+      @updateDisplayValue="emitUpdateDisplayValue"
+      @updateNextClear="emitUpdateNextInput"
+      @updateStatusCalculation="emitUpdateStatusCalculation"
+      @allClearValuesPanel="emitClearAllValue"
+      @watchFormattedDisplayValue="emitUpdateFormattedDisplayValue"
+      :sendHistory="historyLayout"
+      :calcDisplayValue="displayValueLayout"
+      :clearInputExp="nextInputLayout"
+      :statusCalculation="statusCalculationLayout"
     />
   </div>
-  <History
-    :track="history"
-    @updateTrack="updateTrack"
-    @cloneDisplay="updateDisplayValue"
-  />
 </template>
 
 <script>
-  import History from './History.vue'
   import CalcControlPanel from './CalcControlPanel.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
   export default {
     name: 'Layout',
     components: {
-      History,
       CalcControlPanel,
       FontAwesomeIcon,
     },
-    data: function () {
-      return {
-        displayValue: '',
-        history: [],
-        statusCalculation: false,
-        clearNextInput: false,
-        formattedDisplayValue: [],
-      }
+    emits: [
+      'updateDisplayValueApp',
+      'updateStatusCalculationApp',
+      'updateNextInputApp',
+      'clearAllValuesApp',
+      'updateFormattedDisplayApp',
+    ],
+    props: {
+      displayValueLayout: String,
+      historyLayout: Array,
+      statusCalculationLayout: Boolean,
+      nextInputLayout: Boolean,
+      formattedDisplayLayout: Array,
     },
     methods: {
-      updateDisplayValue(newVal) {
-        this.displayValue = newVal
+      emitUpdateDisplayValue(newVal) {
+        this.$emit('updateDisplayValueApp', newVal)
       },
-      addNewHistoryApp(newVal) {
-        const historyItem = {
-          value: {
-            calculation: this.displayValue,
-            result: newVal,
-          },
-          format: {
-            calculation: this.formattedDisplayValue,
-          },
-        }
-        this.history.push(historyItem)
+      emitUpdateStatusCalculation(newVal) {
+        this.$emit('updateStatusCalculationApp', newVal)
       },
-      updateNextInput(newVal) {
-        this.clearNextInput = newVal
+      emitUpdateNextInput(newVal) {
+        this.$emit('updateNextInputApp', newVal)
       },
-      clearAllValues() {
-        this.displayValue = ''
-        this.clearNextInput = false
+      emitClearAllValue() {
+        this.$emit('clearAllValuesApp')
       },
-      updateBoolExecution(newVal) {
-        this.isExecution = newVal
-      },
-      updateFormattedDisplayValue(newVal) {
-        this.formattedDisplayValue = newVal
-      },
-      updateStatusCalculation(newVal) {
-        this.statusCalculation = newVal
-      },
-      updateTrack(newVal) {
-        this.history = newVal
+      emitUpdateFormattedDisplayValue(newVal) {
+        this.$emit('updateFormattedDisplayApp', newVal)
       },
     },
   }

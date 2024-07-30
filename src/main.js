@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faXmark, faDeleteLeft, faDivide, faPlus, faMinus, faCircle, faClone, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 library.add(faXmark, faDeleteLeft, faDivide, faPlus, faMinus, faCircle, faClone, faTrashCan);
 
+
 createApp(App)
 .component('font-awesome-icon', FontAwesomeIcon)
 .mount('#app')
