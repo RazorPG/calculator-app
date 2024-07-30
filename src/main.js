@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+import router from './router';
 import './assets/style.css';
 import "animate.css/animate.css";
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -9,5 +10,6 @@ library.add(faXmark, faDeleteLeft, faDivide, faPlus, faMinus, faCircle, faClone,
 
 
 createApp(App)
+.use(router)
 .component('font-awesome-icon', FontAwesomeIcon)
 .mount('#app')

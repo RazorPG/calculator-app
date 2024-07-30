@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container p-4 bg-slate-600 mx-auto max-w-[23rem] md:max-w-[25rem] border-slate-700 border-2 rounded-xl shadow-inner-btn"
+    class="container p-4 bg-slate-600 mx-auto max-w-[23rem] md:max-w-[25rem] border-slate-700 border-2 rounded-xl shadow-inner-btn mb-10"
   >
     <div
       class="my-2 mb-4 bg-slate-400 h-full overflow-y-auto overflow-x-hidden"
@@ -35,6 +35,9 @@
       :statusCalculation="statusCalculationLayout"
     />
   </div>
+  <router-link to="/history">
+    <button class="btn-link">go to History</button>
+  </router-link>
 </template>
 
 <script>

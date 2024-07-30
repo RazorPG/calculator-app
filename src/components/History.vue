@@ -58,6 +58,9 @@
       </div>
     </div>
   </div>
+  <router-link to="/">
+    <button class="btn-link">back to app</button>
+  </router-link>
 </template>
 
 <script>
