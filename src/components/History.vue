@@ -1,12 +1,11 @@
 <template>
   <div
     class="my-4 text-start mx-auto max-w-[30rem] bg-slate-600 p-4 rounded-lg shadow-lg"
-    v-if="track.length"
   >
     <h2 class="text-center mb-5 text-3xl text-white">HISTORY</h2>
     <div class="text-lg text-start flex flex-col gap-2">
       <div
-        v-for="(historyItem, index) in track"
+        v-for="(historyItem, index) in historyLayout"
         :key="index"
         class="text-black bg-white w-full p-3 rounded-lg flex justify-between items-center"
       >
@@ -30,7 +29,7 @@
               <span v-else>{{ calculationItem.value }}</span>
             </template>
           </div>
-          <div class="block">
+          <div class="block font-bold">
             <template
               v-for="(resultItem, resIndex) in historyItem.format.result"
               :key="resIndex"
@@ -67,20 +66,20 @@
   export default {
     name: 'history',
     components: FontAwesomeIcon,
-    props: ['track'],
-    emits: ['cloneDisplay'],
+    props: ['historyLayout'],
+    emits: ['updateDisplayValueApp'],
     methods: {
       removeHistory(index) {
-        let track = this.track
+        let track = this.historyLayout
         track.splice(index, 1)
       },
       copyHistory(index) {
-        let history = this.track[index]
+        let history = this.historyLayout[index]
         let result = history.value.result
         this.emitUpdateDisplay(result)
       },
       emitUpdateDisplay(newVal) {
-        this.$emit('cloneDisplay', newVal)
+        this.$emit('updateDisplayValueApp', newVal)
       },
     },
   }

@@ -4,7 +4,6 @@
   </div>
   <Layout
     @updateDisplayValueApp="updateDisplayValueApp"
-    @updateHistoryApp="addNewHistory"
     @updateStatusCalculationApp="updateStatusCalculation"
     @updateNextInputApp="statusNextInput"
     @clearAllValuesApp="clearAllValues"
@@ -14,15 +13,22 @@
     :statusCalculationLayout="statusCalculation"
     :nextInputLayout="clearNextInput"
     :formattedDisplayLayout="formattedDisplayValue"
-    :trackRecord="history"
+  />
+  <History
+    :historyLayout="history"
+    @updateDisplayValueApp="updateDisplayValueApp"
   />
 </template>
 
 <script>
   import Layout from './components/Layout.vue'
-
+  import History from './components/History.vue'
   export default {
     name: 'App',
+    components: {
+      Layout,
+      History,
+    },
     data() {
       return {
         displayValue: '',
@@ -32,25 +38,9 @@
         formattedDisplayValue: [],
       }
     },
-    components: {
-      Layout,
-    },
     methods: {
       updateDisplayValueApp(newVal) {
         this.displayValue = newVal
-      },
-      addNewHistory(newVal) {
-        const historyItem = {
-          value: {
-            calculation: this.displayValue,
-            result: newVal,
-          },
-          format: {
-            calculation: this.formattedDisplayValue,
-          },
-        }
-        this.history.push(historyItem)
-        console.log('data history di panggil', this.history)
       },
       updateStatusCalculation(newVal) {
         this.statusCalculation = newVal

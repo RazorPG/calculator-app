@@ -27,7 +27,6 @@
       @updateDisplayValue="emitUpdateDisplayValue"
       @updateNextClear="emitUpdateNextInput"
       @updateStatusCalculation="emitUpdateStatusCalculation"
-      @addNewHistory="emitUpdateHistory"
       @allClearValuesPanel="emitClearAllValue"
       @watchFormattedDisplayValue="emitUpdateFormattedDisplayValue"
       :sendHistory="historyLayout"
@@ -36,24 +35,20 @@
       :statusCalculation="statusCalculationLayout"
     />
   </div>
-  <History :track="trackRecord" @cloneDisplay="emitUpdateDisplayValue" />
 </template>
 
 <script>
-  import History from './History.vue'
   import CalcControlPanel from './CalcControlPanel.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
   export default {
     name: 'Layout',
     components: {
-      History,
       CalcControlPanel,
       FontAwesomeIcon,
     },
     emits: [
       'updateDisplayValueApp',
-      'updateHistoryApp',
       'updateStatusCalculationApp',
       'updateNextInputApp',
       'clearAllValuesApp',
@@ -65,14 +60,10 @@
       statusCalculationLayout: Boolean,
       nextInputLayout: Boolean,
       formattedDisplayLayout: Array,
-      trackRecord: Array,
     },
     methods: {
       emitUpdateDisplayValue(newVal) {
         this.$emit('updateDisplayValueApp', newVal)
-      },
-      emitUpdateHistory(newVal) {
-        this.$emit('updateHistoryApp', newVal)
       },
       emitUpdateStatusCalculation(newVal) {
         this.$emit('updateStatusCalculationApp', newVal)

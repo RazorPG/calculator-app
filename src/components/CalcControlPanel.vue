@@ -148,17 +148,19 @@
     data() {
       return {
         repeatInterval: null,
+        beginHistory: {},
       }
     },
-
     mounted() {
       window.addEventListener('keydown', this.handleKeyInputValue)
     },
     computed: {
       formattedDisplayValue() {
+        console.log(this.sendHistory)
         let display = this.calcDisplayValue
         let displayPart = display.split(/([+\-*/])/)
         return displayPart.map(char => {
+          console.log(char)
           let result = {}
           // jika charnya adalah operator (+ - * / )
           if (['+', '-', '*', '/'].includes(char)) {
@@ -215,27 +217,18 @@
         handler(newValue) {
           let history = this.sendHistory
           let status = this.statusCalculation
-          console.log(status)
           this.$emit('watchFormattedDisplayValue', newValue)
           if (status) {
             status = false
-            console.log('history berhasil di push')
+            const updateHistory = this.beginHistory
             this.emitStatusCalculation(status)
-            history[history.length - 1].format.result =
-              this.formattedDisplayValue
+            updateHistory.format.result = this.formattedDisplayValue
+            history.push(updateHistory)
           }
         },
         immediate: true,
       },
     },
-    emits: [
-      'updateDisplayValue',
-      'watchFormattedDisplayValue',
-      'updateNextClear',
-      'addNewHistory',
-      'allClearValuesPanel',
-      'updateStatusCalculation',
-    ],
     methods: {
       startRepeating(method, value) {
         this.repeatInterval = setInterval(() => {
@@ -254,9 +247,6 @@
       },
       emitIsNextClear(newVal) {
         this.$emit('updateNextClear', newVal)
-      },
-      emitNewHistory(newVal) {
-        this.$emit('addNewHistory', newVal)
       },
       emitClearValuesPanel() {
         this.$emit('allClearValuesPanel')
@@ -380,7 +370,6 @@
         }
       },
       equal() {
-        let history = this.sendHistory
         let currentDisplayValue = this.calcDisplayValue
         let boolNextInput = this.clearInputExp
         let status = this.statusCalculation
@@ -414,17 +403,16 @@
             ) {
               status = true
               this.emitStatusCalculation(status)
-              let emitHistory = history.push({
+              let emitHistory = {
                 value: {
                   calculation: this.calcDisplayValue,
                   result: currentDisplayValue,
                 },
                 format: {
                   calculation: this.formattedDisplayValue,
-                  result: '',
                 },
-              })
-              this.emitNewHistory(emitHistory)
+              }
+              this.beginHistory = emitHistory
             }
           } catch (err) {
             console.error('Error caught:', err.message)
