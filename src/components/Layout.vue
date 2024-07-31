@@ -1,12 +1,10 @@
 <template>
   <div
-    class="container p-4 bg-slate-600 mx-auto max-w-[23rem] md:max-w-[25rem] border-slate-700 border-2 rounded-xl shadow-inner-btn mb-10"
+    class="container p-4 bg-color-primary mx-auto max-w-[19rem] md:max-w-[25rem] border-orange-950 border-2 rounded-xl shadow-inner-calc mb-2"
   >
-    <div
-      class="my-2 mb-4 bg-slate-400 h-full overflow-y-auto overflow-x-hidden"
-    >
+    <div class="my-2 mb-4 h-full overflow-y-auto overflow-x-hidden">
       <div
-        class="text-3xl w-full h-[3.8rem] p-3 rounded-lg resize-none bg-white overflow-y-auto text-end"
+        class="text-4xl w-full h-[3.8rem] px-3 py-2 rounded-lg resize-none bg-[rgba(1,167,143,255)] overflow-y-auto text-end font-calculator font-bold shadow-2xl tracking-[0.08em]"
       >
         <span
           v-for="(char, index) in formattedDisplayLayout"

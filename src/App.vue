@@ -1,5 +1,5 @@
 <template>
-  <div class="text-4xl md:text-5xl font-bold mb-6 md:mb-8">
+  <div class="text-4xl md:text-5xl font-bold pt-5 mb-6 md:mb-8">
     <h1>MY CALCULATOR APP</h1>
   </div>
   <router-view
@@ -19,7 +19,7 @@
 <script>
   export default {
     name: 'App',
-    data() {
+    data: function () {
       return {
         displayValue: '',
         history: [],
@@ -55,7 +55,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color:#005a48;
+  background-image: url("@/assets/images/texture.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
 }
 </style>

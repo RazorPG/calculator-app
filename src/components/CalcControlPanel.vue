@@ -1,9 +1,11 @@
 <template>
   <div class="grid grid-cols-4 gap-2 text-xl md:text-2xl font-bold">
-    <button class="btn-cal" @click="allClearValuesPanel">AC</button>
+    <button class="btn-cal btn-secondary" @click="allClearValuesPanel">
+      AC
+    </button>
     <div class="col-span-2"></div>
     <button
-      class="btn-cal"
+      class="btn-cal btn-secondary"
       @click="removeLastValue"
       @mousedown="startRepeating('removeLastValue')"
       @mouseup="stopRepeating"
@@ -12,7 +14,7 @@
       <font-awesome-icon icon="delete-left" size="xl" />
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('1')"
       @mousedown="startRepeating('inputValuePanel', '1')"
       @mouseup="stopRepeating"
@@ -21,7 +23,7 @@
       1
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('2')"
       @mousedown="startRepeating('inputValuePanel', '2')"
       @mouseup="stopRepeating"
@@ -30,7 +32,7 @@
       2
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('3')"
       @mousedown="startRepeating('inputValuePanel', '3')"
       @mouseup="stopRepeating"
@@ -38,11 +40,14 @@
     >
       3
     </button>
-    <button class="btn-cal" @click="applyOperationPanel('multiply')">
+    <button
+      class="btn-cal btn-secondary"
+      @click="applyOperationPanel('multiply')"
+    >
       <font-awesome-icon icon="xmark" />
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('4')"
       @mousedown="startRepeating('inputValuePanel', '4')"
       @mouseup="stopRepeating"
@@ -51,7 +56,7 @@
       4
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('5')"
       @mousedown="startRepeating('inputValuePanel', '5')"
       @mouseup="stopRepeating"
@@ -60,7 +65,7 @@
       5
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('6')"
       @mousedown="startRepeating('inputValuePanel', '6')"
       @mouseup="stopRepeating"
@@ -68,11 +73,14 @@
     >
       6
     </button>
-    <button class="btn-cal" @click="applyOperationPanel('divide')">
+    <button
+      class="btn-cal btn-secondary"
+      @click="applyOperationPanel('divide')"
+    >
       <font-awesome-icon icon="divide" />
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('7')"
       @mousedown="startRepeating('inputValuePanel', '7')"
       @mouseup="stopRepeating"
@@ -81,7 +89,7 @@
       7
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('8')"
       @mousedown="startRepeating('inputValuePanel', '8')"
       @mouseup="stopRepeating"
@@ -90,7 +98,7 @@
       8
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('9')"
       @mousedown="startRepeating('inputValuePanel', '9')"
       @mouseup="stopRepeating"
@@ -98,11 +106,11 @@
     >
       9
     </button>
-    <button class="btn-cal" @click="applyOperationPanel('sum')">
+    <button class="btn-cal btn-secondary" @click="applyOperationPanel('sum')">
       <font-awesome-icon icon="plus" />
     </button>
     <button
-      class="btn-cal"
+      class="btn-cal btn-primary"
       @click="inputValuePanel('0')"
       @mousedown="startRepeating('inputValuePanel', '0')"
       @mouseup="stopRepeating"
@@ -110,9 +118,14 @@
     >
       0
     </button>
-    <button class="btn-cal" @click="equal">=</button>
-    <button class="btn-cal" @click="inputValuePanel('.')">,</button>
-    <button class="btn-cal" @click="applyOperationPanel('subtract')">
+    <button class="btn-cal btn-secondary" @click="equal">=</button>
+    <button class="btn-cal btn-secondary" @click="inputValuePanel('.')">
+      ,
+    </button>
+    <button
+      class="btn-cal btn-secondary"
+      @click="applyOperationPanel('subtract')"
+    >
       <font-awesome-icon icon="minus" />
     </button>
   </div>
@@ -120,7 +133,6 @@
 
 <script>
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-  import Decimal from 'decimal.js'
 
   export default {
     name: 'calc-control-panel',
@@ -160,7 +172,6 @@
         let display = this.calcDisplayValue
         let displayPart = display.split(/([+\-*/])/)
         return displayPart.map(char => {
-          console.log(char)
           let result = {}
           // jika charnya adalah operator (+ - * / )
           if (['+', '-', '*', '/'].includes(char)) {
@@ -294,7 +305,7 @@
         let parts = newValue.split(/[+\-*/]/)
         let lastPart = parts[parts.length - 1]
 
-        if (lastPart === '0' && val !== '.') {
+        if ((lastPart.length > 16 || lastPart === '0') && val !== '.') {
           // Jika bagian terakhir adalah 0 dan val bukan koma, return
           return
         }
@@ -389,14 +400,11 @@
           hasOperator
         ) {
           try {
-            result = new Decimal(eval(currentDisplayValue))
-              .toNumber()
-              .toString()
+            result = eval(currentDisplayValue).toString()
             if (result.includes('e') || result === 'Infinity') {
               boolNextInput = true
             }
             currentDisplayValue = result
-            console.log(currentDisplayValue, 'cek apakah Infinity')
             if (
               currentDisplayValue !== 'Infinity' &&
               !currentDisplayValue.includes('e')

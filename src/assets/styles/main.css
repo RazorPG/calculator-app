@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'Calculator';
+    src: url('@/assets/fonts/Calculator.ttf') format('truetype');
+}
+
+.font-calculator {
+    font-family: 'Calculator';
+}
+
+.btn-cal {
+    @apply rounded-xl  py-[0.8rem] md:py-[1.4rem]  transition-all duration-100 ease-out  active:scale-90 hover:scale-[0.98];
+}
+.btn-primary {
+    @apply bg-white shadow-inner-btn;
+}
+.btn-secondary {
+    @apply bg-color-secondary shadow-inner-btn-hover text-white;
+}
+
+.btn-link {
+    @apply border-2 p-4 border-slate-700 bg-slate-500 rounded-xl uppercase mt-4 font-bold transition-all duration-100 text-white ease-out hover:bg-slate-300 hover:text-black active:scale-90 shadow-inner-btn-link;
+}
