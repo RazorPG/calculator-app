@@ -59,7 +59,7 @@
     </div>
   </div>
   <router-link to="/">
-    <button class="btn-link">back to app</button>
+    <button class="btn-3d">back to app</button>
   </router-link>
 </template>
 

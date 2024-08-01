@@ -55,11 +55,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color:#005a48;
+  background: radial-gradient(at left top, rgba(1, 127, 7, 1.0), rgba(6, 17, 92, 1.0));
+  /* color:#005a48;
   background-image: url("@/assets/images/texture.jpg");
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   height: 100vh;
   width: 100%;
 }

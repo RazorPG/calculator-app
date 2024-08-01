@@ -1,12 +1,15 @@
 <template>
-  <div class="grid grid-cols-4 gap-2 text-xl md:text-2xl font-bold">
-    <button class="btn-cal btn-secondary" @click="allClearValuesPanel">
+  <div class="grid grid-cols-4 gap-3 text-xl md:text-2xl font-bold">
+    <button
+      class="btn-cal btn-secondary tracking-[0.08em]"
+      @click="handleClick('allclear', 'allClearValuesPanel')"
+    >
       AC
     </button>
     <div class="col-span-2"></div>
     <button
       class="btn-cal btn-secondary"
-      @click="removeLastValue"
+      @click="handleClick('remove', 'removeLastValue')"
       @mousedown="startRepeating('removeLastValue')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -15,7 +18,7 @@
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('1')"
+      @click="handleClick('operand', 'inputValuePanel', '1')"
       @mousedown="startRepeating('inputValuePanel', '1')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -24,7 +27,7 @@
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('2')"
+      @click="handleClick('operand', 'inputValuePanel', '2')"
       @mousedown="startRepeating('inputValuePanel', '2')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -33,7 +36,7 @@
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('3')"
+      @click="handleClick('operand', 'inputValuePanel', '3')"
       @mousedown="startRepeating('inputValuePanel', '3')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -42,13 +45,13 @@
     </button>
     <button
       class="btn-cal btn-secondary"
-      @click="applyOperationPanel('multiply')"
+      @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
     >
       <font-awesome-icon icon="xmark" />
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('4')"
+      @click="handleClick('operand', 'inputValuePanel', '4')"
       @mousedown="startRepeating('inputValuePanel', '4')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -57,7 +60,7 @@
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('5')"
+      @click="handleClick('operand', 'inputValuePanel', '5')"
       @mousedown="startRepeating('inputValuePanel', '5')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -66,7 +69,7 @@
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('6')"
+      @click="handleClick('operand', 'inputValuePanel', '6')"
       @mousedown="startRepeating('inputValuePanel', '6')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -75,13 +78,13 @@
     </button>
     <button
       class="btn-cal btn-secondary"
-      @click="applyOperationPanel('divide')"
+      @click="handleClick('operator', 'applyOperationPanel', 'divide')"
     >
       <font-awesome-icon icon="divide" />
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('7')"
+      @click="handleClick('operand', 'inputValuePanel', '7')"
       @mousedown="startRepeating('inputValuePanel', '7')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -90,7 +93,7 @@
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('8')"
+      @click="handleClick('operand', 'inputValuePanel', '8')"
       @mousedown="startRepeating('inputValuePanel', '8')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
@@ -99,32 +102,43 @@
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('9')"
+      @click="handleClick('operand', 'inputValuePanel', '9')"
       @mousedown="startRepeating('inputValuePanel', '9')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
     >
       9
     </button>
-    <button class="btn-cal btn-secondary" @click="applyOperationPanel('sum')">
+    <button
+      class="btn-cal btn-secondary"
+      @click="handleClick('operator', 'applyOperationPanel', 'sum')"
+    >
       <font-awesome-icon icon="plus" />
     </button>
     <button
       class="btn-cal btn-primary"
-      @click="inputValuePanel('0')"
+      @click="handleClick('operand', 'inputValuePanel', '0')"
       @mousedown="startRepeating('inputValuePanel', '0')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
     >
       0
     </button>
-    <button class="btn-cal btn-secondary" @click="equal">=</button>
-    <button class="btn-cal btn-secondary" @click="inputValuePanel('.')">
+    <button
+      class="btn-cal btn-secondary"
+      @click="handleClick('equal', 'equal')"
+    >
+      =
+    </button>
+    <button
+      class="btn-cal btn-secondary"
+      @click="handleClick('operand', 'inputValuePanel', '.')"
+    >
       ,
     </button>
     <button
       class="btn-cal btn-secondary"
-      @click="applyOperationPanel('subtract')"
+      @click="handleClick('operator', 'applyOperationPanel', 'subtract')"
     >
       <font-awesome-icon icon="minus" />
     </button>
@@ -133,12 +147,14 @@
 
 <script>
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  import { soundMixin } from '@/mixins/soundMixin'
 
   export default {
     name: 'calc-control-panel',
     components: {
       FontAwesomeIcon,
     },
+    mixins: [soundMixin],
     props: {
       calcDisplayValue: {
         type: String,
@@ -241,6 +257,11 @@
       },
     },
     methods: {
+      handleClick(sound, method, ...args) {
+        this.playClickSound(sound)
+
+        this[method](...args)
+      },
       startRepeating(method, value) {
         this.repeatInterval = setInterval(() => {
           if (value !== undefined) {
@@ -279,13 +300,25 @@
             case 'Backspace':
               return this.removeLastValue()
             case '*':
-              return this.applyOperationPanel('multiply')
+              return this.handleClick(
+                'operator',
+                'applyOperationPanel',
+                'multiply'
+              )
             case '/':
-              return this.applyOperationPanel('divide')
+              return this.handleClick(
+                'operator',
+                'applyOperationPanel',
+                'divide'
+              )
             case '+':
-              return this.applyOperationPanel('sum')
+              return this.handleClick('operator', 'applyOperationPanel', 'sum')
             case '-':
-              return this.applyOperationPanel('subtract')
+              return this.handleClick(
+                'operator',
+                'applyOperationPanel',
+                'subtract'
+              )
             case ',':
               return this.inputValuePanel('.')
             default:
@@ -305,8 +338,8 @@
         let parts = newValue.split(/[+\-*/]/)
         let lastPart = parts[parts.length - 1]
 
+        // Jika bagian terakhir adalah 0  atau panjang operand lebih dari 16 dan val bukan koma
         if ((lastPart.length > 16 || lastPart === '0') && val !== '.') {
-          // Jika bagian terakhir adalah 0 dan val bukan koma, return
           return
         }
 

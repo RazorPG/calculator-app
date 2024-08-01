@@ -13,15 +13,18 @@
 }
 
 .btn-cal {
-    @apply rounded-xl  py-[0.8rem] md:py-[1.4rem]  transition-all duration-100 ease-out  active:scale-90 hover:scale-[0.98];
+    @apply rounded-xl  py-[0.8rem] md:py-[1.4rem]  transition-all duration-100 ease-linear active:shadow-none active:translate-y-2;
 }
 .btn-primary {
-    @apply bg-white shadow-inner-btn;
+    @apply bg-white;
+    box-shadow: 0 8px 0  #dde1e0;
 }
 .btn-secondary {
-    @apply bg-color-secondary shadow-inner-btn-hover text-white;
+    @apply bg-color-secondary text-white;
+    box-shadow: 0 8px 0 rgba(0,168,143,1);
 }
 
-.btn-link {
-    @apply border-2 p-4 border-slate-700 bg-slate-500 rounded-xl uppercase mt-4 font-bold transition-all duration-100 text-white ease-out hover:bg-slate-300 hover:text-black active:scale-90 shadow-inner-btn-link;
+.btn-3d {
+    @apply p-4 bg-color-secondary rounded-lg relative uppercase mt-4 transition-all duration-100 ease-in shadow-xl active:shadow-none active:translate-y-2 font-bold;
+    box-shadow: 0 8px 0 rgba(0,168,143,1);
 }
