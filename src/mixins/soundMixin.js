@@ -12,8 +12,11 @@ export const soundMixin = {
     },
     methods: {
       playClickSound(sound) {
+        let delay = 50;
         const audio = new Audio(this.audioFiles[sound]);
-        audio.play();
+        setTimeout(() => {
+            audio.play();
+        }, delay);
       },
     },
   };

@@ -17,11 +17,9 @@
 }
 .btn-primary {
     @apply bg-white;
-    box-shadow: 0 8px 0  #dde1e0;
 }
 .btn-secondary {
     @apply bg-color-secondary text-white;
-    box-shadow: 0 8px 0 rgba(0,168,143,1);
 }
 
 .btn-3d {

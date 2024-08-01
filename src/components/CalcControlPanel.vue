@@ -1,14 +1,16 @@
 <template>
   <div class="grid grid-cols-4 gap-3 text-xl md:text-2xl font-bold">
     <button
-      class="btn-cal btn-secondary tracking-[0.08em]"
+      data-key="c"
+      class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary"
       @click="handleClick('allclear', 'allClearValuesPanel')"
     >
       AC
     </button>
     <div class="col-span-2"></div>
     <button
-      class="btn-cal btn-secondary"
+      data-key="Backspace"
+      class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('remove', 'removeLastValue')"
       @mousedown="startRepeating('removeLastValue')"
       @mouseup="stopRepeating"
@@ -17,7 +19,8 @@
       <font-awesome-icon icon="delete-left" size="xl" />
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="1"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '1')"
       @mousedown="startRepeating('inputValuePanel', '1')"
       @mouseup="stopRepeating"
@@ -26,7 +29,8 @@
       1
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="2"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '2')"
       @mousedown="startRepeating('inputValuePanel', '2')"
       @mouseup="stopRepeating"
@@ -35,7 +39,8 @@
       2
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="3"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '3')"
       @mousedown="startRepeating('inputValuePanel', '3')"
       @mouseup="stopRepeating"
@@ -44,13 +49,15 @@
       3
     </button>
     <button
-      class="btn-cal btn-secondary"
+      data-key="x"
+      class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
     >
       <font-awesome-icon icon="xmark" />
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="4"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '4')"
       @mousedown="startRepeating('inputValuePanel', '4')"
       @mouseup="stopRepeating"
@@ -59,7 +66,8 @@
       4
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="5"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '5')"
       @mousedown="startRepeating('inputValuePanel', '5')"
       @mouseup="stopRepeating"
@@ -68,7 +76,8 @@
       5
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="6"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '6')"
       @mousedown="startRepeating('inputValuePanel', '6')"
       @mouseup="stopRepeating"
@@ -77,13 +86,15 @@
       6
     </button>
     <button
-      class="btn-cal btn-secondary"
+      data-key="/"
+      class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'divide')"
     >
       <font-awesome-icon icon="divide" />
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="7"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '7')"
       @mousedown="startRepeating('inputValuePanel', '7')"
       @mouseup="stopRepeating"
@@ -92,7 +103,8 @@
       7
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="8"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '8')"
       @mousedown="startRepeating('inputValuePanel', '8')"
       @mouseup="stopRepeating"
@@ -101,7 +113,8 @@
       8
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="9"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '9')"
       @mousedown="startRepeating('inputValuePanel', '9')"
       @mouseup="stopRepeating"
@@ -110,13 +123,15 @@
       9
     </button>
     <button
-      class="btn-cal btn-secondary"
+      data-key="+"
+      class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'sum')"
     >
       <font-awesome-icon icon="plus" />
     </button>
     <button
-      class="btn-cal btn-primary"
+      data-key="0"
+      class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '0')"
       @mousedown="startRepeating('inputValuePanel', '0')"
       @mouseup="stopRepeating"
@@ -125,19 +140,22 @@
       0
     </button>
     <button
-      class="btn-cal btn-secondary"
+      data-key="Enter"
+      class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('equal', 'equal')"
     >
       =
     </button>
     <button
-      class="btn-cal btn-secondary"
+      data-key=","
+      class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operand', 'inputValuePanel', '.')"
     >
       ,
     </button>
     <button
-      class="btn-cal btn-secondary"
+      data-key="-"
+      class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'subtract')"
     >
       <font-awesome-icon icon="minus" />
@@ -181,6 +199,7 @@
     },
     mounted() {
       window.addEventListener('keydown', this.handleKeyInputValue)
+      window.addEventListener('keyup', this.soundKeyInputValue)
     },
     computed: {
       formattedDisplayValue() {
@@ -289,41 +308,65 @@
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
+        const buttons = document.querySelectorAll(`[data-key='${key}']`)
+        buttons.forEach(button => {
+          if (
+            button.classList.contains('shadow-btn-secondary') ||
+            button.classList.contains('shadow-btn-primary')
+          ) {
+            button.classList.remove(
+              'shadow-btn-secondary',
+              'shadow-btn-primary'
+            )
+            button.classList.add('translate-y-2')
+          }
+        })
         if (key === ' ') {
           return
         } else if (!isNaN(key)) {
           return this.inputValuePanel(key)
-        } else if (key === '=' || key === 'Enter') {
+        } else if (key === 'Enter') {
           return this.equal()
         } else {
           switch (key) {
             case 'Backspace':
               return this.removeLastValue()
-            case '*':
-              return this.handleClick(
-                'operator',
-                'applyOperationPanel',
-                'multiply'
-              )
+            case 'x':
+              return this.applyOperationPanel('multiply')
             case '/':
-              return this.handleClick(
-                'operator',
-                'applyOperationPanel',
-                'divide'
-              )
+              return this.applyOperationPanel('divide')
             case '+':
-              return this.handleClick('operator', 'applyOperationPanel', 'sum')
+              return this.applyOperationPanel('sum')
             case '-':
-              return this.handleClick(
-                'operator',
-                'applyOperationPanel',
-                'subtract'
-              )
+              return this.applyOperationPanel('subtract')
             case ',':
               return this.inputValuePanel('.')
             default:
               break
           }
+        }
+      },
+      soundKeyInputValue(event) {
+        const key = event.key
+        const buttons = document.querySelectorAll(`[data-key='${key}']`)
+        buttons.forEach(button => {
+          if (button.classList.contains('btn-secondary')) {
+            button.classList.add('shadow-btn-secondary')
+          } else if (button.classList.contains('btn-primary')) {
+            button.classList.add('shadow-btn-primary')
+          }
+          button.classList.remove('translate-y-2')
+        })
+        if (key === ' ') {
+          return
+        } else if (!isNaN(key) || key === ',') {
+          return this.playClickSound('operand')
+        } else if (key === 'Enter') {
+          return this.playClickSound('equal')
+        } else if (key === 'x' || key === '/' || key === '+' || key === '-') {
+          this.playClickSound('operator')
+        } else if (key === 'Backspace') {
+          this.playClickSound('remove')
         }
       },
       inputValuePanel(val) {

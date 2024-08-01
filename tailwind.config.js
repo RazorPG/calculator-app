@@ -8,9 +8,8 @@ module.exports = {
     extend: {
       boxShadow: {
         'inner-calc': 'inset 0 -5px 0 5px  rgb(26,46,53)',
-        'inner-btn-primary': 'inset 0 -5px 0 3px  #dde1e0',
-        'inner-btn-secondary': 'inset 0 0px 0 3px  rgba(0,168,143,1)',
-        'inner-btn-link': "inset -4px -4px 0 2px rgba(0, 0, 0, 0.2)",
+        'btn-primary': '0 8px 0  #dde1e0',
+        'btn-secondary': '0 8px 0 rgba(0,168,143,1)',
         'inner-input' : 'inset 0 0 7px 5px rgb(26,46,53)'
       },
       backgroundColor: {
