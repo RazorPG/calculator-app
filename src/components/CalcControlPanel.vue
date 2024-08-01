@@ -276,23 +276,22 @@
       },
     },
     methods: {
+      // untuk memberikan sfx ketika tombol kalkulator di klik
       handleClick(sound, method, ...args) {
         this.playClickSound(sound)
-
         this[method](...args)
       },
+      // ketika masih di press buttonnya maka fungsinya terus di ulang
       startRepeating(method, value) {
         this.repeatInterval = setInterval(() => {
-          if (value !== undefined) {
-            this[method](value)
-          } else {
-            this[method]()
-          }
+          value !== undefined ? this[method](value) : this[method]()
         }, 100)
       },
+      // memberhentikan event yang ada di button ketika di klik tahan berhenti
       stopRepeating() {
         clearInterval(this.repeatInterval)
       },
+      // peremit emitan
       emitUpdateDisplay(newVal) {
         this.$emit('updateDisplayValue', newVal)
       },
@@ -305,24 +304,19 @@
       emitStatusCalculation(newVal) {
         this.$emit('updateStatusCalculation', newVal)
       },
+      // ngehandle semua key dari keyboard
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
         const buttons = document.querySelectorAll(`[data-key='${key}']`)
         buttons.forEach(button => {
-          if (
-            button.classList.contains('shadow-btn-secondary') ||
-            button.classList.contains('shadow-btn-primary')
-          ) {
-            button.classList.remove(
-              'shadow-btn-secondary',
-              'shadow-btn-primary'
-            )
-            button.classList.add('translate-y-2')
-          }
+          button.classList.remove('shadow-btn-primary', 'shadow-btn-secondary')
+          button.classList.add('translate-y-2')
         })
         if (key === ' ') {
           return
+        } else if (key === 'c') {
+          return this.allClearValuesPanel()
         } else if (!isNaN(key)) {
           return this.inputValuePanel(key)
         } else if (key === 'Enter') {
@@ -350,29 +344,35 @@
         const key = event.key
         const buttons = document.querySelectorAll(`[data-key='${key}']`)
         buttons.forEach(button => {
-          if (button.classList.contains('btn-secondary')) {
-            button.classList.add('shadow-btn-secondary')
-          } else if (button.classList.contains('btn-primary')) {
-            button.classList.add('shadow-btn-primary')
-          }
+          button.classList.add(
+            button.classList.contains('btn-secondary')
+              ? 'shadow-btn-secondary'
+              : 'shadow-btn-primary'
+          )
           button.classList.remove('translate-y-2')
         })
-        if (key === ' ') {
-          return
-        } else if (!isNaN(key) || key === ',') {
-          return this.playClickSound('operand')
-        } else if (key === 'Enter') {
-          return this.playClickSound('equal')
-        } else if (key === 'x' || key === '/' || key === '+' || key === '-') {
-          this.playClickSound('operator')
-        } else if (key === 'Backspace') {
-          this.playClickSound('remove')
-        }
+
+        return this.playClickSound(
+          key === ' '
+            ? null
+            : !isNaN(key) || key === ','
+            ? 'operand'
+            : key === 'Enter'
+            ? 'equal'
+            : key === 'c'
+            ? 'allclear'
+            : key === 'x' || key === '/' || key === '+' || key === '-'
+            ? 'operator'
+            : key === 'Backspace'
+            ? 'remove'
+            : null
+        )
       },
       inputValuePanel(val) {
         let newValue = this.calcDisplayValue
         let boolNextInput = this.clearInputExp
 
+        // jika terdapat e atau infinity maka boolNextInput akan true sehingga fungsi clearvalue otomatis di jalankan mau apapun yang di klik
         if (boolNextInput) {
           boolNextInput = false
           return this.emitClearValuesPanel()
