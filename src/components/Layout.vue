@@ -1,6 +1,15 @@
 <template>
+  <header class="text-white font-head font-bold">
+    <h1
+      ref="header"
+      class="text-stroke-black tracking-[0.2em] lg:tracking-[em] text-4xl md:text-6xl lg:text-7xl"
+    >
+      MY CALCULATOR APP
+    </h1>
+  </header>
+
   <div
-    class="container p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2"
+    class="container p-4 mt-20 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2"
   >
     <div class="my-2 mb-4 h-full overflow-y-auto overflow-x-hidden">
       <div
@@ -34,7 +43,7 @@
       :statusCalculation="statusCalculationLayout"
     />
   </div>
-  <router-link to="/history" class="self-start">
+  <router-link to="/history">
     <button class="btn-3d">go to History</button>
   </router-link>
 </template>

@@ -201,6 +201,10 @@
       window.addEventListener('keydown', this.handleKeyInputValue)
       window.addEventListener('keyup', this.soundKeyInputValue)
     },
+    beforeUnmount() {
+      window.removeEventListener('keydown', this.handleKeyInputValue)
+      window.removeEventListener('keyup', this.soundKeyInputValue)
+    },
     computed: {
       formattedDisplayValue() {
         console.log(this.sendHistory)
@@ -212,14 +216,19 @@
           if (['+', '-', '*', '/'].includes(char)) {
             result.isIcon = true
             result.component = 'font-awesome-icon'
-            result.icon =
-              char === '+'
-                ? 'plus'
-                : char === '-'
-                ? 'minus'
-                : char === '/'
-                ? 'divide'
-                : 'xmark'
+            if (char === '+') {
+              result.icon = 'plus'
+              result.symbol = '+'
+            } else if (char === '-') {
+              result.icon = 'minus'
+              result.symbol = '−'
+            } else if (char === '/') {
+              result.icon = 'divide'
+              result.symbol = '÷'
+            } else {
+              result.icon = 'xmark'
+              result.symbol = '×'
+            }
           }
           // jika charnya adalah 'Infinity'
           else if (char.includes('Infinity')) {
@@ -269,6 +278,7 @@
             const updateHistory = this.beginHistory
             this.emitStatusCalculation(status)
             updateHistory.format.result = this.formattedDisplayValue
+            updateHistory.format.result.symbol
             history.push(updateHistory)
           }
         },

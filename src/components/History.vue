@@ -1,16 +1,16 @@
 <template>
   <div
-    class="my-4 text-start mx-auto max-w-[30rem] bg-slate-600 p-4 rounded-lg shadow-lg"
+    class="mb-4 text-start mx-auto max-w-[30rem] bg-color-primary p-4 rounded-lg shadow-lg"
   >
     <h2 class="text-center mb-5 text-3xl text-white">HISTORY</h2>
     <div class="text-lg text-start flex flex-col gap-2">
       <div
         v-for="(historyItem, index) in historyLayout"
         :key="index"
-        class="text-black bg-white w-full p-3 rounded-lg flex justify-between items-center"
+        class="text-white bg-color-secondary w-full p-3 rounded-lg flex justify-between items-center"
       >
         <span
-          class="bg-slate-500 text-slate-300 py-3 px-5 rounded-lg me-2 shrink-0"
+          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 shrink-0"
           >{{ index + 1 }}</span
         >
         <div class="w-full">
@@ -44,13 +44,13 @@
           </div>
         </div>
         <button
-          class="bg-slate-500 text-slate-300 py-3 px-5 rounded-lg me-2 hover:text-slate-700 hover:bg-slate-300 shadow-xl"
+          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 hover:text-white hover:bg-slate-700 shadow-xl"
           @click="copyHistory(index)"
         >
           <font-awesome-icon icon="clone" size="sm" />
         </button>
         <button
-          class="bg-slate-500 text-slate-300 py-3 px-5 rounded-lg me-2 hover:text-slate-700 hover:bg-slate-300 shadow-xl"
+          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 hover:text-white hover:bg-slate-700 shadow-xl"
           @click="removeHistory(index)"
         >
           <font-awesome-icon icon="trash-can" size="sm" />
@@ -76,11 +76,44 @@
         let track = this.historyLayout
         track.splice(index, 1)
       },
-      copyHistory(index) {
-        let history = this.historyLayout[index]
-        let result = history.value.result
-        this.emitUpdateDisplay(result)
+      async copyHistory(index) {
+        try {
+          let history = this.historyLayout[index]
+          let calculationItems = history.format.calculation
+          let result = history.format.result
+
+          // Gabungkan nilai dan simbol
+          let calculationString = calculationItems
+            .map(item => {
+              if (item.isIcon) {
+                return item.symbol
+              } else {
+                return item.value
+              }
+            })
+            .join(' ')
+
+          let resultString = ''
+          if (result.length > 0) {
+            let resultSymbol = result[1].symbol
+            let resultValue = result[2].value
+            resultString = `${resultSymbol}${resultValue}`
+          } else {
+            resultString = result[0].value
+          }
+
+          // Buat string lengkap dengan hasil
+          let finalString = `${calculationString} = ${resultString}`
+
+          // Menyalin ke clipboard
+          await navigator.clipboard.writeText(finalString)
+          // Menampilkan notifikasi atau feedback kepada pengguna jika diinginkan
+          alert('History copied to clipboard!')
+        } catch (err) {
+          console.error('Failed to copy:', err)
+        }
       },
+      // this.emitUpdateDisplay(result)
       emitUpdateDisplay(newVal) {
         this.$emit('updateDisplayValueApp', newVal)
       },

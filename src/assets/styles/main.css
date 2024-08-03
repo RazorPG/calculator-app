@@ -8,8 +8,16 @@
     src: url('@/assets/fonts/Calculator.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'ICARubrikBold';
+    src: url('@/assets/fonts/ICARubrikBold.ttf') format('truetype');
+}
+
 .font-calculator {
-    font-family: 'Calculator';
+    font-family: 'Calculator', serif;
+}
+.font-head {
+    font-family: 'ICARubrikBold', serif;
 }
 
 .btn-cal {
