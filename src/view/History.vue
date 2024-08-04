@@ -51,7 +51,7 @@
         </button>
         <button
           class="bg-color-third text-black py-3 px-5 rounded-lg me-2 hover:text-white hover:bg-slate-700 shadow-xl"
-          @click="removeHistory(index)"
+          @click="openModal(index)"
         >
           <font-awesome-icon icon="trash-can" size="sm" />
         </button>
@@ -61,6 +61,28 @@
   <router-link to="/">
     <button class="btn-3d">back to app</button>
   </router-link>
+  <div>
+    <div
+      v-if="open"
+      class="fixed bg-modal inset-0 flex items-center justify-center z-50"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-lg">
+        <p class="text-lg">Are you sure you want to delete?</p>
+        <button
+          class="bg-red-500 text-white py-2 px-4 rounded-lg mt-4 mr-2"
+          @click="confirmRemoveHistory"
+        >
+          Confirm
+        </button>
+        <button
+          class="bg-gray-500 text-white py-2 px-4 rounded-lg mt-4"
+          @click="closeModal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -69,12 +91,30 @@
   export default {
     name: 'history',
     components: FontAwesomeIcon,
+    data() {
+      return {
+        open: false,
+        deleteIndex: null,
+      }
+    },
     props: ['historyLayout'],
     emits: ['updateDisplayValueApp'],
     methods: {
+      openModal(index) {
+        this.open = true
+        this.deleteIndex = index
+      },
+      closeModal() {
+        this.open = false
+        this.deleteIndex = null
+      },
+      confirmRemoveHistory() {
+        this.removeHistory(this.deleteIndex)
+        this.closeModal()
+      },
       removeHistory(index) {
-        let track = this.historyLayout
-        track.splice(index, 1)
+        let history = this.historyLayout
+        history.splice(index, 1)
       },
       async copyHistory(index) {
         try {
@@ -94,7 +134,8 @@
             .join(' ')
 
           let resultString = ''
-          if (result.length > 0) {
+          console.log(result)
+          if (result.length > 1) {
             let resultSymbol = result[1].symbol
             let resultValue = result[2].value
             resultString = `${resultSymbol}${resultValue}`
@@ -102,6 +143,7 @@
             resultString = result[0].value
           }
 
+          console.log('copyHistory called with index:', index)
           // Buat string lengkap dengan hasil
           let finalString = `${calculationString} = ${resultString}`
 

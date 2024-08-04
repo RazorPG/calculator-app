@@ -16,7 +16,8 @@ module.exports = {
         'color-primary': 'rgb(42, 69, 78)',
         'color-secondary' : '#0addbc',
         'color-third' : "#dde1e0",
-        'input' : 'rgba(1,167,143,255)'
+        'input' : 'rgba(1,167,143,255)',
+        'modal' : 'rgba(0, 0, 0, 0.5)'
       },
       backgroundImage: {
         'main' : "radial-gradient(at left top, rgba(1, 127, 7, 1.0), rgba(6, 17, 92, 1.0))"

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-4 gap-3 text-xl md:text-2xl font-bold">
+  <div class="grid grid-cols-4 gap-x-3 gap-y-4 text-xl md:text-2xl font-bold">
     <button
       data-key="c"
       class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary"
@@ -130,6 +130,13 @@
       <font-awesome-icon icon="plus" />
     </button>
     <button
+      data-key="Enter"
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('equal', 'equal')"
+    >
+      =
+    </button>
+    <button
       data-key="0"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '0')"
@@ -138,13 +145,6 @@
       @mouseleave="stopRepeating"
     >
       0
-    </button>
-    <button
-      data-key="Enter"
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('equal', 'equal')"
-    >
-      =
     </button>
     <button
       data-key=","
@@ -270,6 +270,7 @@
     watch: {
       formattedDisplayValue: {
         handler(newValue) {
+          console.log('panjang format', this.formattedDisplayValue)
           let history = this.sendHistory
           let status = this.statusCalculation
           this.$emit('watchFormattedDisplayValue', newValue)
@@ -318,6 +319,7 @@
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
+        console.log(key)
         const buttons = document.querySelectorAll(`[data-key='${key}']`)
         buttons.forEach(button => {
           button.classList.remove('shadow-btn-primary', 'shadow-btn-secondary')
