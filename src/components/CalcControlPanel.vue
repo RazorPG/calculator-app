@@ -1,13 +1,35 @@
 <template>
   <div class="grid grid-cols-4 gap-x-3 gap-y-4 text-xl md:text-2xl font-bold">
     <button
-      data-key="c"
-      class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary"
-      @click="handleClick('allclear', 'allClearValuesPanel')"
+      data-key="7"
+      class="btn-cal btn-primary shadow-btn-primary"
+      @click="handleClick('operand', 'inputValuePanel', '7')"
+      @mousedown="startRepeating('inputValuePanel', '7')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
     >
-      AC
+      7
     </button>
-    <div class="col-span-2"></div>
+    <button
+      data-key="8"
+      class="btn-cal btn-primary shadow-btn-primary"
+      @click="handleClick('operand', 'inputValuePanel', '8')"
+      @mousedown="startRepeating('inputValuePanel', '8')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      8
+    </button>
+    <button
+      data-key="9"
+      class="btn-cal btn-primary shadow-btn-primary"
+      @click="handleClick('operand', 'inputValuePanel', '9')"
+      @mousedown="startRepeating('inputValuePanel', '9')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      9
+    </button>
     <button
       data-key="Backspace"
       class="btn-cal btn-secondary shadow-btn-secondary"
@@ -17,43 +39,6 @@
       @mouseleave="stopRepeating"
     >
       <font-awesome-icon icon="delete-left" size="xl" />
-    </button>
-    <button
-      data-key="1"
-      class="btn-cal btn-primary shadow-btn-primary"
-      @click="handleClick('operand', 'inputValuePanel', '1')"
-      @mousedown="startRepeating('inputValuePanel', '1')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
-    >
-      1
-    </button>
-    <button
-      data-key="2"
-      class="btn-cal btn-primary shadow-btn-primary"
-      @click="handleClick('operand', 'inputValuePanel', '2')"
-      @mousedown="startRepeating('inputValuePanel', '2')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
-    >
-      2
-    </button>
-    <button
-      data-key="3"
-      class="btn-cal btn-primary shadow-btn-primary"
-      @click="handleClick('operand', 'inputValuePanel', '3')"
-      @mousedown="startRepeating('inputValuePanel', '3')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
-    >
-      3
-    </button>
-    <button
-      data-key="x"
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
-    >
-      <font-awesome-icon icon="xmark" />
     </button>
     <button
       data-key="4"
@@ -86,6 +71,43 @@
       6
     </button>
     <button
+      data-key="x"
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
+    >
+      <font-awesome-icon icon="xmark" />
+    </button>
+    <button
+      data-key="1"
+      class="btn-cal btn-primary shadow-btn-primary"
+      @click="handleClick('operand', 'inputValuePanel', '1')"
+      @mousedown="startRepeating('inputValuePanel', '1')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      1
+    </button>
+    <button
+      data-key="2"
+      class="btn-cal btn-primary shadow-btn-primary"
+      @click="handleClick('operand', 'inputValuePanel', '2')"
+      @mousedown="startRepeating('inputValuePanel', '2')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      2
+    </button>
+    <button
+      data-key="3"
+      class="btn-cal btn-primary shadow-btn-primary"
+      @click="handleClick('operand', 'inputValuePanel', '3')"
+      @mousedown="startRepeating('inputValuePanel', '3')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      3
+    </button>
+    <button
       data-key="/"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'divide')"
@@ -93,48 +115,13 @@
       <font-awesome-icon icon="divide" />
     </button>
     <button
-      data-key="7"
-      class="btn-cal btn-primary shadow-btn-primary"
-      @click="handleClick('operand', 'inputValuePanel', '7')"
-      @mousedown="startRepeating('inputValuePanel', '7')"
+      class="btn-cal btn-primary shadow-btn-primary col-span-2 tracking-[0.08em] text-3xl"
+      @click="handleClick('operand', 'inputValuePanel', '00')"
+      @mousedown="startRepeating('inputValuePanel', '00')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
     >
-      7
-    </button>
-    <button
-      data-key="8"
-      class="btn-cal btn-primary shadow-btn-primary"
-      @click="handleClick('operand', 'inputValuePanel', '8')"
-      @mousedown="startRepeating('inputValuePanel', '8')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
-    >
-      8
-    </button>
-    <button
-      data-key="9"
-      class="btn-cal btn-primary shadow-btn-primary"
-      @click="handleClick('operand', 'inputValuePanel', '9')"
-      @mousedown="startRepeating('inputValuePanel', '9')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
-    >
-      9
-    </button>
-    <button
-      data-key="+"
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operator', 'applyOperationPanel', 'sum')"
-    >
-      <font-awesome-icon icon="plus" />
-    </button>
-    <button
-      data-key="Enter"
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('equal', 'equal')"
-    >
-      =
+      00
     </button>
     <button
       data-key="0"
@@ -145,6 +132,27 @@
       @mouseleave="stopRepeating"
     >
       0
+    </button>
+    <button
+      data-key="+"
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('operator', 'applyOperationPanel', 'sum')"
+    >
+      <font-awesome-icon icon="plus" />
+    </button>
+    <button
+      data-key="c"
+      class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary"
+      @click="handleClick('allclear', 'allClearValuesPanel')"
+    >
+      AC
+    </button>
+    <button
+      data-key="Enter"
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('equal', 'equal')"
+    >
+      =
     </button>
     <button
       data-key=","
@@ -408,6 +416,8 @@
         } else if (val == '0') {
           newValue +=
             lastPart.includes('.') || !['.', '0'].includes(lastPart) ? val : ''
+        } else if (val == '00') {
+          newValue += lastPart.includes('.') || lastPart.length ? val : ''
         } else {
           newValue += val
         }
