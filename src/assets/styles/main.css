@@ -31,7 +31,7 @@
 }
 
 .btn-3d {
-    @apply p-4 bg-color-secondary rounded-lg relative uppercase mt-4 transition-all duration-100 ease-in shadow-xl active:shadow-none active:translate-y-2 font-bold;
+    @apply p-4 border-4 border-[rgba(0,168,143,1)] bg-color-secondary rounded-lg relative uppercase mt-4 transition-all duration-100 ease-in shadow-xl active:shadow-none active:translate-y-2 font-bold text-white;
     box-shadow: 0 8px 0 rgba(0,168,143,1);
 }
 

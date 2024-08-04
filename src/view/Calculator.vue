@@ -1,6 +1,6 @@
 <template>
   <header
-    class="absolute inset-0 flex flex-c justify-center items-center text-white font-head font-bold"
+    class="absolute inset-0 flex flex-col justify-center items-center text-white font-head font-bold"
   >
     <h1
       ref="header"
@@ -17,7 +17,7 @@
     >
       <div class="my-2 mb-4 h-full overflow-y-auto overflow-x-hidden">
         <div
-          class="text-[1.7rem] md:text-4xl uppercase w-full h-16 md:h-18 px-3 py-3 rounded-lg resize-none bg-input overflow-y-auto text-start font-calculator font-bold tracking-wider scrollbar-input relative"
+          class="text-[1.7rem] md:text-4xl uppercase w-full h-16 md:h-18 px-3 py-2 rounded-lg resize-none bg-input overflow-y-auto text-start font-calculator font-bold tracking-wider scrollbar-input relative border-4 border-[rgba(0,268,143,0.5)]"
         >
           <span
             v-for="(char, index) in formattedDisplayLayout"

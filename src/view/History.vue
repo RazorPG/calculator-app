@@ -1,8 +1,10 @@
 <template>
   <div
-    class="mb-4 text-start mx-auto max-w-[30rem] bg-color-primary p-4 rounded-lg shadow-lg"
+    class="mb-4 text-start mx-auto max-w-[30rem] bg-color-primary p-4 rounded-lg shadow-inner-calc"
   >
-    <h2 class="text-center mb-5 text-3xl text-white">HISTORY</h2>
+    <h1 class="text-center mb-5 text-3xl text-white font-head tracking-widest">
+      HISTORY
+    </h1>
     <div class="text-lg text-start flex flex-col gap-2">
       <div
         v-for="(historyItem, index) in historyLayout"
@@ -10,7 +12,7 @@
         class="text-white bg-color-secondary w-full p-3 rounded-lg flex justify-between items-center"
       >
         <span
-          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 shrink-0"
+          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 shrink-0 font-bold"
           >{{ index + 1 }}</span
         >
         <div class="w-full">
@@ -66,19 +68,23 @@
       v-if="open"
       class="fixed bg-modal inset-0 flex items-center justify-center z-50"
     >
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <p class="text-lg">Are you sure you want to delete?</p>
+      <div
+        class="bg-white min-w-[25rem] lg:min-w-[30rem] p-6 rounded-lg shadow-lg"
+      >
+        <h2 class="font-bold text-2xl lg:text-3xl py-2">Confirm</h2>
+        <hr />
+        <p class="text-lg mt-2">Are you sure you want to delete?</p>
         <button
-          class="bg-red-500 text-white py-2 px-4 rounded-lg mt-4 mr-2"
+          class="bg-color-secondary text-white py-2 px-6 rounded-lg mt-4 me-4"
           @click="confirmRemoveHistory"
         >
-          Confirm
+          YES
         </button>
         <button
-          class="bg-gray-500 text-white py-2 px-4 rounded-lg mt-4"
+          class="bg-color-third text-black py-2 px-6 rounded-lg mt-4"
           @click="closeModal"
         >
-          Close
+          NO
         </button>
       </div>
     </div>
@@ -121,7 +127,7 @@
           let history = this.historyLayout[index]
           let calculationItems = history.format.calculation
           let result = history.format.result
-
+          console.log()
           // Gabungkan nilai dan simbol
           let calculationString = calculationItems
             .map(item => {

@@ -1,6 +1,44 @@
 <template>
   <div class="grid grid-cols-4 gap-x-3 gap-y-4 text-xl md:text-2xl font-bold">
     <button
+      data-key="c"
+      class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary"
+      @click="handleClick('allclear', 'allClearValuesPanel')"
+    >
+      AC
+    </button>
+    <button
+      data-key="Enter"
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('equal', 'equal')"
+    >
+      =
+    </button>
+    <button
+      data-key=","
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('operand', 'inputValuePanel', '.')"
+    >
+      ,
+    </button>
+    <button
+      data-key="Backspace"
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('remove', 'removeLastValue')"
+      @mousedown="startRepeating('removeLastValue')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      <font-awesome-icon icon="delete-left" size="xl" />
+    </button>
+    <button
+      data-key="x"
+      class="btn-cal btn-secondary shadow-btn-secondary"
+      @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
+    >
+      <font-awesome-icon icon="xmark" />
+    </button>
+    <button
       data-key="7"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '7')"
@@ -31,14 +69,11 @@
       9
     </button>
     <button
-      data-key="Backspace"
+      data-key="/"
       class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('remove', 'removeLastValue')"
-      @mousedown="startRepeating('removeLastValue')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
+      @click="handleClick('operator', 'applyOperationPanel', 'divide')"
     >
-      <font-awesome-icon icon="delete-left" size="xl" />
+      <font-awesome-icon icon="divide" />
     </button>
     <button
       data-key="4"
@@ -71,11 +106,11 @@
       6
     </button>
     <button
-      data-key="x"
+      data-key="+"
       class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
+      @click="handleClick('operator', 'applyOperationPanel', 'sum')"
     >
-      <font-awesome-icon icon="xmark" />
+      <font-awesome-icon icon="plus" />
     </button>
     <button
       data-key="1"
@@ -108,20 +143,31 @@
       3
     </button>
     <button
-      data-key="/"
+      data-key="-"
       class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operator', 'applyOperationPanel', 'divide')"
+      @click="handleClick('operator', 'applyOperationPanel', 'subtract')"
     >
-      <font-awesome-icon icon="divide" />
+      <font-awesome-icon icon="minus" />
     </button>
     <button
-      class="btn-cal btn-primary shadow-btn-primary col-span-2 tracking-[0.08em] text-3xl"
-      @click="handleClick('operand', 'inputValuePanel', '00')"
-      @mousedown="startRepeating('inputValuePanel', '00')"
+      data-key="("
+      class="btn-cal btn-primary shadow-btn-primary tracking-[0.08em] text-3xl"
+      @click="handleClick('operand', 'inputValuePanel', '(')"
+      @mousedown="startRepeating('inputValuePanel', '(')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
     >
-      00
+      (
+    </button>
+    <button
+      data-key=")"
+      class="btn-cal btn-primary shadow-btn-primary tracking-[0.08em] text-3xl"
+      @click="handleClick('operand', 'inputValuePanel', ')')"
+      @mousedown="startRepeating('inputValuePanel', ')')"
+      @mouseup="stopRepeating"
+      @mouseleave="stopRepeating"
+    >
+      )
     </button>
     <button
       data-key="0"
@@ -132,41 +178,6 @@
       @mouseleave="stopRepeating"
     >
       0
-    </button>
-    <button
-      data-key="+"
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operator', 'applyOperationPanel', 'sum')"
-    >
-      <font-awesome-icon icon="plus" />
-    </button>
-    <button
-      data-key="c"
-      class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary"
-      @click="handleClick('allclear', 'allClearValuesPanel')"
-    >
-      AC
-    </button>
-    <button
-      data-key="Enter"
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('equal', 'equal')"
-    >
-      =
-    </button>
-    <button
-      data-key=","
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operand', 'inputValuePanel', '.')"
-    >
-      ,
-    </button>
-    <button
-      data-key="-"
-      class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operator', 'applyOperationPanel', 'subtract')"
-    >
-      <font-awesome-icon icon="minus" />
     </button>
   </div>
 </template>
@@ -215,9 +226,8 @@
     },
     computed: {
       formattedDisplayValue() {
-        console.log(this.sendHistory)
         let display = this.calcDisplayValue
-        let displayPart = display.split(/([+\-*/])/)
+        let displayPart = display.split(/([+\-*/()])/)
         return displayPart.map(char => {
           let result = {}
           // jika charnya adalah operator (+ - * / )
@@ -239,7 +249,11 @@
             }
           }
           // jika charnya adalah 'Infinity'
-          else if (char.includes('Infinity')) {
+          else if (
+            char.includes('Infinity') ||
+            ['(', ')'].includes(char) ||
+            char.includes('Error')
+          ) {
             result.isIcon = false
             result.value = char
           }
@@ -248,9 +262,6 @@
             let [integerPart, dote, floatPart] = char.split(/([.])/)
             if (char.includes('.')) {
               dote = ','
-            }
-            if (integerPart.length > 16) {
-              integerPart = integerPart.slice(0, 16)
             }
 
             integerPart = integerPart
@@ -278,7 +289,6 @@
     watch: {
       formattedDisplayValue: {
         handler(newValue) {
-          console.log('panjang format', this.formattedDisplayValue)
           let history = this.sendHistory
           let status = this.statusCalculation
           this.$emit('watchFormattedDisplayValue', newValue)
@@ -327,7 +337,6 @@
       handleKeyInputValue(event) {
         // mengambil key dari keyboard
         const key = event.key
-        console.log(key)
         const buttons = document.querySelectorAll(`[data-key='${key}']`)
         buttons.forEach(button => {
           button.classList.remove('shadow-btn-primary', 'shadow-btn-secondary')
@@ -337,7 +346,7 @@
           return
         } else if (key === 'c') {
           return this.allClearValuesPanel()
-        } else if (!isNaN(key)) {
+        } else if (!isNaN(key) || key === '(' || key === ')') {
           return this.inputValuePanel(key)
         } else if (key === 'Enter') {
           return this.equal()
@@ -375,7 +384,7 @@
         return this.playClickSound(
           key === ' '
             ? null
-            : !isNaN(key) || key === ','
+            : !isNaN(key) || key === ',' || key === '(' || key === ')'
             ? 'operand'
             : key === 'Enter'
             ? 'equal'
@@ -398,11 +407,18 @@
           return this.emitClearValuesPanel()
         }
         // pisahkan berdasarkan operator
-        let parts = newValue.split(/[+\-*/]/)
+        console.log(newValue)
+        let parts = newValue.split(/[+\-*/()]/)
         let lastPart = parts[parts.length - 1]
+        console.log(parts)
+        console.log(lastPart.length)
 
         // Jika bagian terakhir adalah 0  atau panjang operand lebih dari 16 dan val bukan koma
-        if ((lastPart.length > 16 || lastPart === '0') && val !== '.') {
+        if (
+          (lastPart.length >= 16 || lastPart === '0') &&
+          val !== '.' &&
+          val !== ')'
+        ) {
           return
         }
 
@@ -416,8 +432,6 @@
         } else if (val == '0') {
           newValue +=
             lastPart.includes('.') || !['.', '0'].includes(lastPart) ? val : ''
-        } else if (val == '00') {
-          newValue += lastPart.includes('.') || lastPart.length ? val : ''
         } else {
           newValue += val
         }
@@ -462,9 +476,10 @@
           let lastChar = newValue.slice(-1)
           if (opMachine !== null && newValue !== '') {
             if (
-              !['*', '/', '+', '-'].includes(lastChar) ||
+              !['*', '/', '+', '-', '('].includes(lastChar) ||
               (opMachine === '-' && lastChar === '*') ||
-              (opMachine === '-' && lastChar === '/')
+              (opMachine === '-' && lastChar === '/') ||
+              (opMachine === '-' && lastChar === '(')
             ) {
               newValue += opMachine
             }
@@ -485,7 +500,7 @@
         let result = null
 
         // Pisahkan currentDisplayValue berdasarkan operator untuk cek jumlah operand
-        const operands = currentDisplayValue.split(/[+\-*/]/)
+        const operands = currentDisplayValue.split(/[+\-*/()]/)
         if (operands.length == 2 && operands[0] === '') {
           return
         }
@@ -523,6 +538,7 @@
           } catch (err) {
             console.error('Error caught:', err.message)
             currentDisplayValue = 'Error'
+            boolNextInput = true
           }
         }
         this.emitUpdateDisplay(currentDisplayValue)

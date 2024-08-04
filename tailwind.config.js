@@ -20,7 +20,7 @@ module.exports = {
         'modal' : 'rgba(0, 0, 0, 0.5)'
       },
       backgroundImage: {
-        'main' : "radial-gradient(at left top, rgba(1, 127, 7, 1.0), rgba(6, 17, 92, 1.0))"
+        'calculator' : "linear-gradient(180deg, #2B454E  80%, #858585)"
       },
       textColor: {
         'color-primary' :'#005a48',
