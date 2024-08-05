@@ -25,7 +25,7 @@
     <button
       data-key=","
       class="btn-cal btn-secondary shadow-btn-secondary"
-      @click="handleClick('operand', 'inputValuePanel', '.')"
+      @click="handleClick('operator', 'inputValuePanel', '.')"
     >
       ,
       <texture-panel
@@ -68,7 +68,7 @@
     >
       7
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -82,7 +82,7 @@
     >
       8
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -96,7 +96,7 @@
     >
       9
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -121,7 +121,7 @@
     >
       4
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -135,7 +135,7 @@
     >
       5
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -149,7 +149,7 @@
     >
       6
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -174,7 +174,7 @@
     >
       1
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -188,7 +188,7 @@
     >
       2
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -202,7 +202,7 @@
     >
       3
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -227,7 +227,7 @@
     >
       (
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -241,7 +241,7 @@
     >
       )
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -255,7 +255,7 @@
     >
       0
       <texture-panel
-        fill="rgba(221, 225, 224, 0.3)"
+        fill="rgba(221, 225, 224, 0.7)"
         class="absolute w-full h-full inset-0 -z-10 scale-[2]"
       />
     </button>
@@ -466,13 +466,17 @@
         return this.playClickSound(
           key === ' '
             ? null
-            : !isNaN(key) || key === ',' || key === '(' || key === ')'
+            : !isNaN(key) || key === '(' || key === ')'
             ? 'operand'
             : key === 'Enter'
             ? 'equal'
             : key === 'c'
             ? 'allclear'
-            : key === 'x' || key === '/' || key === '+' || key === '-'
+            : key === 'x' ||
+              key === '/' ||
+              key === '+' ||
+              key === '-' ||
+              key === ','
             ? 'operator'
             : key === 'Backspace'
             ? 'remove'

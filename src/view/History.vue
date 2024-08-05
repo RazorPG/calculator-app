@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mb-4 text-start mx-auto max-w-[30rem] bg-color-primary p-4 rounded-lg shadow-inner-calc"
+    class="mb-4 text-start mx-auto max-w-[30rem] bg-color-primary px-4 pb-8 pt-4 rounded-lg shadow-inner-calc"
   >
     <h1 class="text-center mb-5 text-3xl text-white font-head tracking-widest">
       HISTORY
@@ -64,39 +64,26 @@
     <button class="btn-3d">back to app</button>
   </router-link>
   <div>
-    <div
-      v-if="open"
-      class="fixed bg-modal inset-0 flex items-center justify-center z-50"
-    >
-      <div
-        class="bg-white min-w-[25rem] lg:min-w-[30rem] p-6 rounded-lg shadow-lg"
-      >
-        <h2 class="font-bold text-2xl lg:text-3xl py-2">Confirm</h2>
-        <hr />
-        <p class="text-lg mt-2">Are you sure you want to delete?</p>
-        <button
-          class="bg-color-secondary text-white py-2 px-6 rounded-lg mt-4 me-4"
-          @click="confirmRemoveHistory"
-        >
-          YES
-        </button>
-        <button
-          class="bg-color-third text-black py-2 px-6 rounded-lg mt-4"
-          @click="closeModal"
-        >
-          NO
-        </button>
-      </div>
-    </div>
+    <modal-delete
+      :modal="open"
+      :index-modal="deleteIndex"
+      :history-modal="historyLayout"
+      @updateIsOpen="openModalHistory"
+      @indexDeleteHistory="indexRemoveHistory"
+      @updateHistory="updateHistory"
+    />
   </div>
 </template>
-
 <script>
+  import ModalDelete from '@/components/ModalDelete.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
   export default {
     name: 'history',
-    components: FontAwesomeIcon,
+    components: {
+      FontAwesomeIcon,
+      ModalDelete,
+    },
     data() {
       return {
         open: false,
@@ -104,23 +91,23 @@
       }
     },
     props: ['historyLayout'],
-    emits: ['updateDisplayValueApp'],
+    emits: ['updateDisplayValueApp', 'updateHistoryApp'],
     methods: {
       openModal(index) {
         this.open = true
+        console.log('modal open:', this.open)
         this.deleteIndex = index
       },
-      closeModal() {
-        this.open = false
-        this.deleteIndex = null
+      openModalHistory(newVal) {
+        this.open = newVal
       },
-      confirmRemoveHistory() {
-        this.removeHistory(this.deleteIndex)
-        this.closeModal()
+      indexRemoveHistory(newVal) {
+        this.deleteIndex = newVal
       },
-      removeHistory(index) {
+      updateHistory(newVal) {
         let history = this.historyLayout
-        history.splice(index, 1)
+        history = newVal
+        this.emitUpdateHistory(history)
       },
       async copyHistory(index) {
         try {
@@ -164,6 +151,9 @@
       // this.emitUpdateDisplay(result)
       emitUpdateDisplay(newVal) {
         this.$emit('updateDisplayValueApp', newVal)
+      },
+      emitUpdateHistory(newVal) {
+        this.$emit('updateHistoryApp', newVal)
       },
     },
   }

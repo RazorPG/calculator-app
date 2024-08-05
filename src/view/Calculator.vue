@@ -13,10 +13,13 @@
 
   <div class="absolute flex flex-col justify-center w-full z-30">
     <div
-      class="container p-4 mt-20 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2"
+      class="container relative p-4 mt-20 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2 after:w-28 after:absolute after:h-28 after:rounded-full after:bg-glassInput overflow-hidden after:blur-[80px] after:left-12 after:top-32"
     >
-      <div class="my-2 mb-4 h-full overflow-y-auto overflow-x-hidden">
+      <div
+        class="my-2 mb-4 h-full overflow-x-hidden overflow-hidden relative z-50"
+      >
         <div
+          ref="input"
           class="text-[1.7rem] md:text-4xl uppercase w-full h-16 md:h-18 px-3 py-3 rounded-lg resize-none bg-input overflow-y-auto text-start font-calculator font-bold tracking-wider scrollbar-input relative shadow-inner-input"
         >
           <span
@@ -25,6 +28,7 @@
             :class="{
               'animation-cursor': index === formattedDisplayLayout.length - 1,
             }"
+            class="relative"
           >
             <component
               :is="char.component"
@@ -36,6 +40,9 @@
             <span v-else>{{ char.value }}</span>
           </span>
         </div>
+        <span
+          class="w-full absolute h-full bg-glassInput rotate-45 blur-3xl right-0 top-0"
+        ></span>
       </div>
       <calc-control-panel
         @updateDisplayValue="emitUpdateDisplayValue"
