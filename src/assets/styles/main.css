@@ -21,18 +21,17 @@
 }
 
 .btn-cal {
-    @apply rounded-xl  py-[0.8rem] md:py-[1.4rem]  transition-all duration-100 ease-linear active:shadow-none active:translate-y-2;
+    @apply rounded-xl  py-[0.8rem] md:py-[1.4rem] z-40 transition-all duration-100 ease-linear active:shadow-none relative active:translate-y-2 overflow-hidden;
 }
 .btn-primary {
-    @apply bg-white border-4 border-[#dde1e0];
+    @apply bg-white border-2 border-[#dde1e0] after:bg-[#dde1e0];
 }
 .btn-secondary {
-    @apply bg-color-secondary text-white border-4 border-[rgba(0,168,143,1)];
+    @apply bg-color-secondary text-white border-2 border-[rgba(0,168,143,1)];
 }
 
 .btn-3d {
-    @apply p-4 border-4 border-[rgba(0,168,143,1)] bg-color-secondary rounded-lg relative uppercase mt-4 transition-all duration-100 ease-in shadow-xl active:shadow-none active:translate-y-2 font-bold text-white;
-    box-shadow: 0 8px 0 rgba(0,168,143,1);
+    @apply p-4 border-2 border-[rgba(0,168,143,1)] bg-color-secondary rounded-lg relative uppercase mt-4 transition-all duration-100 ease-in active:shadow-none active:translate-y-2 font-bold text-white shadow-btn-secondary;
 }
 
 .animation-cursor {

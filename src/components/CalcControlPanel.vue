@@ -2,9 +2,13 @@
   <div class="grid grid-cols-4 gap-x-3 gap-y-4 text-xl md:text-2xl font-bold">
     <button
       data-key="c"
-      class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary"
+      class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary overflow-hidden"
       @click="handleClick('allclear', 'allClearValuesPanel')"
     >
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
       AC
     </button>
     <button
@@ -13,6 +17,10 @@
       @click="handleClick('equal', 'equal')"
     >
       =
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key=","
@@ -20,6 +28,10 @@
       @click="handleClick('operand', 'inputValuePanel', '.')"
     >
       ,
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="Backspace"
@@ -30,6 +42,10 @@
       @mouseleave="stopRepeating"
     >
       <font-awesome-icon icon="delete-left" size="xl" />
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="x"
@@ -37,16 +53,24 @@
       @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
     >
       <font-awesome-icon icon="xmark" />
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="7"
-      class="btn-cal btn-primary shadow-btn-primary"
+      class="btn-cal btn-primary shadow-btn-primary overflow-hidden"
       @click="handleClick('operand', 'inputValuePanel', '7')"
       @mousedown="startRepeating('inputValuePanel', '7')"
       @mouseup="stopRepeating"
       @mouseleave="stopRepeating"
     >
       7
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="8"
@@ -57,6 +81,10 @@
       @mouseleave="stopRepeating"
     >
       8
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="9"
@@ -67,6 +95,10 @@
       @mouseleave="stopRepeating"
     >
       9
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="/"
@@ -74,6 +106,10 @@
       @click="handleClick('operator', 'applyOperationPanel', 'divide')"
     >
       <font-awesome-icon icon="divide" />
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="4"
@@ -84,6 +120,10 @@
       @mouseleave="stopRepeating"
     >
       4
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="5"
@@ -94,6 +134,10 @@
       @mouseleave="stopRepeating"
     >
       5
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="6"
@@ -104,6 +148,10 @@
       @mouseleave="stopRepeating"
     >
       6
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="+"
@@ -111,6 +159,10 @@
       @click="handleClick('operator', 'applyOperationPanel', 'sum')"
     >
       <font-awesome-icon icon="plus" />
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="1"
@@ -121,6 +173,10 @@
       @mouseleave="stopRepeating"
     >
       1
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="2"
@@ -131,6 +187,10 @@
       @mouseleave="stopRepeating"
     >
       2
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="3"
@@ -141,6 +201,10 @@
       @mouseleave="stopRepeating"
     >
       3
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="-"
@@ -148,6 +212,10 @@
       @click="handleClick('operator', 'applyOperationPanel', 'subtract')"
     >
       <font-awesome-icon icon="minus" />
+      <texture-panel
+        fill="rgba(0,168,143,0.2)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="("
@@ -158,6 +226,10 @@
       @mouseleave="stopRepeating"
     >
       (
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key=")"
@@ -168,6 +240,10 @@
       @mouseleave="stopRepeating"
     >
       )
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
     <button
       data-key="0"
@@ -178,6 +254,10 @@
       @mouseleave="stopRepeating"
     >
       0
+      <texture-panel
+        fill="rgba(221, 225, 224, 0.3)"
+        class="absolute w-full h-full inset-0 -z-10 scale-[2]"
+      />
     </button>
   </div>
 </template>
@@ -185,11 +265,13 @@
 <script>
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
   import { soundMixin } from '@/mixins/soundMixin'
+  import texturePanel from './texturePanel.vue'
 
   export default {
     name: 'calc-control-panel',
     components: {
       FontAwesomeIcon,
+      texturePanel,
     },
     mixins: [soundMixin],
     props: {
@@ -432,6 +514,17 @@
         } else if (val == '0') {
           newValue +=
             lastPart.includes('.') || !['.', '0'].includes(lastPart) ? val : ''
+        } else if (val == '(') {
+          newValue +=
+            ['+', '-', '/', '*'].includes(lastPart) || lastPart.length == 0
+              ? val
+              : ''
+        } else if (val == ')') {
+          newValue +=
+            newValue.split('').filter(item => item === '(').length >
+            newValue.split('').filter(item => item === ')').length
+              ? val
+              : ''
         } else {
           newValue += val
         }
@@ -499,6 +592,9 @@
         let status = this.statusCalculation
         let result = null
 
+        // Simpan nilai sebelum evaluasi
+        const previousDisplayValue = currentDisplayValue
+
         // Pisahkan currentDisplayValue berdasarkan operator untuk cek jumlah operand
         const operands = currentDisplayValue.split(/[+\-*/()]/)
         if (operands.length == 2 && operands[0] === '') {
@@ -537,8 +633,7 @@
             }
           } catch (err) {
             console.error('Error caught:', err.message)
-            currentDisplayValue = 'Error'
-            boolNextInput = true
+            currentDisplayValue = previousDisplayValue
           }
         }
         this.emitUpdateDisplay(currentDisplayValue)
