@@ -10,7 +10,7 @@ module.exports = {
         'inner-calc': 'inset 0 -15px 0 5px  rgb(26,46,53)',
         'btn-primary': '0 8px 0 rgba(221, 225, 224, 0.5)',
         'btn-secondary': '0 8px 0 rgba(0,168,143,0.5)',
-        'inner-input' : 'inset 0 2px 0 5px rgba(26,46,53, 0.5)'
+        'inner-input' : ' 0 -2px 0 5px rgba(26,46,53, 0.5)'
       },
       backgroundColor: {
         'color-primary': 'rgb(42, 69, 78)',
