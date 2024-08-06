@@ -1,5 +1,5 @@
 <template>
-  <div
+  <section
     class="mb-4 text-start mx-auto max-w-[30rem] bg-color-primary px-4 pb-8 pt-4 rounded-lg shadow-inner-calc"
   >
     <h1 class="text-center mb-5 text-3xl text-white font-head tracking-widest">
@@ -59,22 +59,21 @@
         </button>
       </div>
     </div>
-  </div>
+  </section>
   <router-link to="/">
     <button class="btn-3d">back to app</button>
   </router-link>
-  <div>
-    <modal-delete
-      :modal="open"
-      :index-modal="deleteIndex"
-      :history-modal="historyLayout"
-      @updateIsOpen="openModalHistory"
-      @indexDeleteHistory="indexRemoveHistory"
-      @updateHistory="updateHistory"
-    />
-  </div>
+  <modal-delete
+    :modal="open"
+    :index-modal="deleteIndex"
+    :history-modal="historyLayout"
+    @updateIsOpen="openModalHistory"
+    @indexDeleteHistory="indexRemoveHistory"
+    @updateHistory="updateHistory"
+  />
 </template>
 <script>
+  import Swal from 'sweetalert2'
   import ModalDelete from '@/components/ModalDelete.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -93,9 +92,30 @@
     props: ['historyLayout'],
     emits: ['updateDisplayValueApp', 'updateHistoryApp'],
     methods: {
+      showNotivicationSuccess() {
+        Swal.fire({
+          icon: 'success',
+          title: `History copied successfully`,
+          showConfirmButton: false,
+          timer: 1800,
+          showClass: {
+            popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `,
+          },
+          hideClass: {
+            popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `,
+          },
+        })
+      },
       openModal(index) {
         this.open = true
-        console.log('modal open:', this.open)
         this.deleteIndex = index
       },
       openModalHistory(newVal) {
@@ -114,7 +134,6 @@
           let history = this.historyLayout[index]
           let calculationItems = history.format.calculation
           let result = history.format.result
-          console.log()
           // Gabungkan nilai dan simbol
           let calculationString = calculationItems
             .map(item => {
@@ -143,7 +162,7 @@
           // Menyalin ke clipboard
           await navigator.clipboard.writeText(finalString)
           // Menampilkan notifikasi atau feedback kepada pengguna jika diinginkan
-          alert('History copied to clipboard!')
+          this.showNotivicationSuccess()
         } catch (err) {
           console.error('Failed to copy:', err)
         }

@@ -11,9 +11,9 @@
     </h1>
   </header>
 
-  <div class="absolute flex flex-col justify-center w-full z-30">
+  <div class="w-full z-30">
     <div
-      class="container relative p-4 mt-20 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2 after:w-28 after:absolute after:h-28 after:rounded-full after:bg-glassInput overflow-hidden after:blur-[80px] after:left-12 after:top-32"
+      class="container relative p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2 after:w-28 after:absolute after:h-28 after:rounded-full after:bg-glassInput overflow-hidden after:blur-[80px] after:left-12 after:top-32"
     >
       <div
         class="my-2 mb-4 h-full overflow-x-hidden overflow-hidden relative z-50 shadow-inner-input rounded-lg"
@@ -57,7 +57,7 @@
       />
     </div>
     <router-link to="/history">
-      <button class="btn-3d">go to History</button>
+      <button class="btn-3d" name="go to history">go to History</button>
     </router-link>
   </div>
 </template>

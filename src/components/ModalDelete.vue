@@ -3,10 +3,8 @@
     v-if="modal"
     class="fixed bg-modal inset-0 flex items-center justify-center z-50"
   >
-    <div
-      class="bg-white min-w-[25rem] lg:min-w-[30rem] p-6 rounded-lg shadow-lg"
-    >
-      <h2 class="font-bold text-2xl lg:text-3xl py-2">Confirm</h2>
+    <div class="bg-white w-[30rem] p-6 rounded-lg shadow-lg">
+      <h2 class="font-bold text-2xl py-2">Confirm</h2>
       <hr />
       <p class="text-lg mt-2">Are you sure you want to delete?</p>
       <button
