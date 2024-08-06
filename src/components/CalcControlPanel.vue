@@ -294,6 +294,13 @@
       texturePanel,
     },
     mixins: [soundMixin],
+    emits: [
+      'updateDisplayValue',
+      'updateNextClear',
+      'allClearValuesPanel',
+      'updateStatusCalculation',
+      'watchFormattedDisplayValue',
+    ],
     props: {
       calcDisplayValue: {
         type: String,

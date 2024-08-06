@@ -24,7 +24,7 @@
 }
 
 .btn-cal {
-    @apply rounded-xl  py-[0.8rem] md:py-[1.4rem] z-40 active:shadow-none relative active:translate-y-2 overflow-hidden;
+    @apply rounded-xl  py-[0.8rem] md:py-[1.4rem] z-40 transition-all duration-100 ease-linear active:shadow-none relative active:translate-y-2 overflow-hidden;
 }
 .btn-primary {
     @apply bg-white border-2 border-[#dde1e0] after:bg-[#dde1e0];

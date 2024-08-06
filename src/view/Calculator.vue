@@ -34,7 +34,6 @@
               :is="char.component"
               :icon="char.icon"
               class="mx-2"
-              size="md"
               v-if="char.isIcon"
             />
             <span v-else>{{ char.value }}</span>

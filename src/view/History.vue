@@ -69,7 +69,6 @@
     :history-modal="historyLayout"
     @updateIsOpen="openModalHistory"
     @indexDeleteHistory="indexRemoveHistory"
-    @updateHistory="updateHistory"
   />
 </template>
 <script>
@@ -90,7 +89,6 @@
       }
     },
     props: ['historyLayout'],
-    emits: ['updateDisplayValueApp', 'updateHistoryApp'],
     methods: {
       showNotivicationSuccess() {
         Swal.fire({
@@ -123,11 +121,6 @@
       },
       indexRemoveHistory(newVal) {
         this.deleteIndex = newVal
-      },
-      updateHistory(newVal) {
-        let history = this.historyLayout
-        history = newVal
-        this.emitUpdateHistory(history)
       },
       async copyHistory(index) {
         try {
@@ -166,13 +159,6 @@
         } catch (err) {
           console.error('Failed to copy:', err)
         }
-      },
-      // this.emitUpdateDisplay(result)
-      emitUpdateDisplay(newVal) {
-        this.$emit('updateDisplayValueApp', newVal)
-      },
-      emitUpdateHistory(newVal) {
-        this.$emit('updateHistoryApp', newVal)
       },
     },
   }

@@ -10,7 +10,6 @@
     @updateNextInputApp="statusNextInput"
     @clearAllValuesApp="clearAllValues"
     @updateFormattedDisplayApp="updateFormattedDisplayValue"
-    @updateHistoryApp="updateHistory"
   />
 </template>
 
@@ -42,9 +41,6 @@
       },
       updateFormattedDisplayValue(newVal) {
         this.formattedDisplayValue = newVal
-      },
-      updateHistory(newVal) {
-        this.history = newVal
       },
     },
   }
