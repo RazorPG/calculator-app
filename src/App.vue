@@ -50,7 +50,7 @@
   body {
   padding: 2rem 0;
   text-align: center;
-  background-image: url('./assets/images/texture.jpg');
+  background-image: url('./assets/images/texture.webp');
   background-size: cover;
   background-position:top;
   background-repeat: repeat;

@@ -1,17 +1,5 @@
 <template>
-  <header
-    class="absolute inset-0 flex flex-col justify-center items-center text-white font-head font-bold"
-  >
-    <h1
-      ref="header"
-      data-content="MY CALCULATOR APP"
-      class="after:opacity-50 text-stroke-1 md:text-stroke-2 lg:text-stroke-3 relative after:z-40 after:text-transparent after:absolute after:top-0 after:left-0 tracking-[0.2em] lg:tracking-[0.5em] text-4xl md:text-6xl xl:text-7xl pointer-events-none"
-    >
-      MY CALCULATOR APP
-    </h1>
-  </header>
-
-  <div class="w-full z-30">
+  <section class="w-full z-30">
     <div
       class="container relative p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2 after:w-28 after:absolute after:h-28 after:rounded-full after:bg-glassInput overflow-hidden after:blur-[80px] after:left-12 after:top-32"
     >
@@ -39,9 +27,6 @@
             <span v-else>{{ char.value }}</span>
           </span>
         </div>
-        <span
-          class="w-full absolute h-full bg-glassInput rotate-45 blur-3xl right-0 top-0 pointer-events-none"
-        ></span>
       </div>
       <calc-control-panel
         @updateDisplayValue="emitUpdateDisplayValue"
@@ -55,10 +40,15 @@
         :statusCalculation="statusCalculationLayout"
       />
     </div>
-    <router-link to="/history">
-      <button class="btn-3d" name="go to history">go to History</button>
+    <router-link to="/history" v-show="historyLayout.length">
+      <button
+        class="bg-slate-700 uppercase rounded-lg text-white p-6"
+        aria-label="go-to-history"
+      >
+        go to History
+      </button>
     </router-link>
-  </div>
+  </section>
 </template>
 
 <script>

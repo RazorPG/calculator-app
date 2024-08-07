@@ -60,8 +60,11 @@
       </div>
     </div>
   </section>
-  <router-link to="/">
-    <button class="btn-3d">back to app</button>
+  <router-link
+    to="/"
+    class="bg-color-primary uppercase rounded-lg text-white p-6"
+  >
+    <button aria-label="to-home">back to app</button>
   </router-link>
   <modal-delete
     :modal="open"

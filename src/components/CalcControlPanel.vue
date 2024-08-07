@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-4 gap-x-3 gap-y-4 text-xl md:text-2xl font-bold">
     <button
-      name="all-clear"
+      aria-label="all-clear"
       data-key="c"
       class="btn-cal btn-secondary tracking-[0.08em] shadow-btn-secondary overflow-hidden"
       @click="handleClick('allclear', 'allClearValuesPanel')"
@@ -13,7 +13,7 @@
       AC
     </button>
     <button
-      name="equal"
+      aria-label="equal"
       data-key="Enter"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('equal', 'equal')"
@@ -25,7 +25,7 @@
       />
     </button>
     <button
-      name="comma"
+      aria-label="comma"
       data-key=","
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'inputValuePanel', '.')"
@@ -37,7 +37,7 @@
       />
     </button>
     <button
-      name="remove"
+      aria-label="remove"
       data-key="Backspace"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('remove', 'removeLastValue')"
@@ -52,7 +52,7 @@
       />
     </button>
     <button
-      name="multiply"
+      aria-label="multiply"
       data-key="x"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'multiply')"
@@ -64,7 +64,7 @@
       />
     </button>
     <button
-      name="seven"
+      aria-label="seven"
       data-key="7"
       class="btn-cal btn-primary shadow-btn-primary overflow-hidden"
       @click="handleClick('operand', 'inputValuePanel', '7')"
@@ -79,7 +79,7 @@
       />
     </button>
     <button
-      name="eight"
+      aria-label="eight"
       data-key="8"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '8')"
@@ -94,7 +94,7 @@
       />
     </button>
     <button
-      name="nine"
+      aria-label="nine"
       data-key="9"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '9')"
@@ -109,7 +109,7 @@
       />
     </button>
     <button
-      name="divide"
+      aria-label="divide"
       data-key="/"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'divide')"
@@ -121,7 +121,7 @@
       />
     </button>
     <button
-      name="four"
+      aria-label="four"
       data-key="4"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '4')"
@@ -136,7 +136,7 @@
       />
     </button>
     <button
-      name="five"
+      aria-label="five"
       data-key="5"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '5')"
@@ -151,7 +151,7 @@
       />
     </button>
     <button
-      name="six"
+      aria-label="six"
       data-key="6"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '6')"
@@ -166,7 +166,7 @@
       />
     </button>
     <button
-      name="plus"
+      aria-label="plus"
       data-key="+"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'sum')"
@@ -178,7 +178,7 @@
       />
     </button>
     <button
-      name="one"
+      aria-label="one"
       data-key="1"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '1')"
@@ -193,7 +193,7 @@
       />
     </button>
     <button
-      name="two"
+      aria-label="two"
       data-key="2"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '2')"
@@ -208,7 +208,7 @@
       />
     </button>
     <button
-      name="three"
+      aria-label="three"
       data-key="3"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '3')"
@@ -223,7 +223,7 @@
       />
     </button>
     <button
-      name="minus"
+      aria-label="minus"
       data-key="-"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('operator', 'applyOperationPanel', 'subtract')"
@@ -235,7 +235,7 @@
       />
     </button>
     <button
-      name="right-bracket"
+      aria-label="right-bracket"
       data-key="("
       class="btn-cal btn-primary shadow-btn-primary tracking-[0.08em] text-3xl"
       @click="handleClick('operand', 'inputValuePanel', '(')"
@@ -250,7 +250,7 @@
       />
     </button>
     <button
-      name="left-bracket"
+      aria-label="left-bracket"
       data-key=")"
       class="btn-cal btn-primary shadow-btn-primary tracking-[0.08em] text-3xl"
       @click="handleClick('operand', 'inputValuePanel', ')')"
@@ -265,7 +265,7 @@
       />
     </button>
     <button
-      name=""
+      aria-label="zero"
       data-key="0"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '0')"

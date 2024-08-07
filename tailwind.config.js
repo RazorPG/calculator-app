@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./index.html",
+    "./public/index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
@@ -13,7 +13,7 @@ module.exports = {
         'inner-input' : ' 0 -2px 0 5px rgba(26,46,53, 0.5)'
       },
       backgroundColor: {
-        'color-primary': 'rgb(42, 69, 78)',
+        'color-primary': '#2A454E',
         'color-secondary' : 'rgba(10, 221, 188, 1)',
         'color-third' : "rgba(221, 225, 224, 1)",
         'input' : 'rgba(1,167,143,255)',
