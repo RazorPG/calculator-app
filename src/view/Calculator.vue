@@ -1,7 +1,7 @@
 <template>
   <section class="w-full z-30">
     <div
-      class="container relative p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2 after:w-28 after:absolute after:h-28 after:rounded-full after:bg-glassInput overflow-hidden after:blur-[80px] after:left-12 after:top-32"
+      class="container relative p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2"
     >
       <div
         class="my-2 mb-4 h-full overflow-x-hidden overflow-hidden relative z-50 shadow-inner-input rounded-lg"
@@ -27,9 +27,9 @@
             <span v-else>{{ char.value }}</span>
           </span>
         </div>
-        <span
+        <!-- <span
           class="w-full absolute h-full bg-glassInput rotate-45 blur-3xl right-0 top-0 pointer-events-none"
-        ></span>
+        ></span> -->
       </div>
       <calc-control-panel
         @updateDisplayValue="emitUpdateDisplayValue"
