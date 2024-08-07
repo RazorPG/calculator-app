@@ -1,20 +1,23 @@
 <template>
-  <router-view
-    :displayValueLayout="displayValue"
-    :historyLayout="history"
-    :statusCalculationLayout="statusCalculation"
-    :nextInputLayout="clearNextInput"
-    :formattedDisplayLayout="formattedDisplayValue"
-    @updateDisplayValueApp="updateDisplayValueApp"
-    @updateStatusCalculationApp="updateStatusCalculation"
-    @updateNextInputApp="statusNextInput"
-    @clearAllValuesApp="clearAllValues"
-    @updateFormattedDisplayApp="updateFormattedDisplayValue"
-  />
+  <div>
+    <router-view
+      :displayValueLayout="displayValue"
+      :historyLayout="history"
+      :statusCalculationLayout="statusCalculation"
+      :nextInputLayout="clearNextInput"
+      :formattedDisplayLayout="formattedDisplayValue"
+      @updateDisplayValueApp="updateDisplayValueApp"
+      @updateStatusCalculationApp="updateStatusCalculation"
+      @updateNextInputApp="statusNextInput"
+      @clearAllValuesApp="clearAllValues"
+      @updateFormattedDisplayApp="updateFormattedDisplayValue"
+    />
+  </div>
 </template>
 
 <script>
-  export default {
+  import { defineComponent } from 'vue'
+  export default defineComponent({
     name: 'App',
     data: function () {
       return {
@@ -43,7 +46,7 @@
         this.formattedDisplayValue = newVal
       },
     },
-  }
+  })
 </script>
 
 <style>

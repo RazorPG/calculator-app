@@ -41,9 +41,6 @@
       data-key="Backspace"
       class="btn-cal btn-secondary shadow-btn-secondary"
       @click="handleClick('remove', 'removeLastValue')"
-      @mousedown="startRepeating('removeLastValue')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       <font-awesome-icon icon="delete-left" size="xl" />
       <texture-panel
@@ -68,9 +65,6 @@
       data-key="7"
       class="btn-cal btn-primary shadow-btn-primary overflow-hidden"
       @click="handleClick('operand', 'inputValuePanel', '7')"
-      @mousedown="startRepeating('inputValuePanel', '7')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       7
       <texture-panel
@@ -83,9 +77,6 @@
       data-key="8"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '8')"
-      @mousedown="startRepeating('inputValuePanel', '8')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       8
       <texture-panel
@@ -98,9 +89,6 @@
       data-key="9"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '9')"
-      @mousedown="startRepeating('inputValuePanel', '9')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       9
       <texture-panel
@@ -125,9 +113,6 @@
       data-key="4"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '4')"
-      @mousedown="startRepeating('inputValuePanel', '4')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       4
       <texture-panel
@@ -140,9 +125,6 @@
       data-key="5"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '5')"
-      @mousedown="startRepeating('inputValuePanel', '5')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       5
       <texture-panel
@@ -155,9 +137,6 @@
       data-key="6"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '6')"
-      @mousedown="startRepeating('inputValuePanel', '6')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       6
       <texture-panel
@@ -182,9 +161,6 @@
       data-key="1"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '1')"
-      @mousedown="startRepeating('inputValuePanel', '1')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       1
       <texture-panel
@@ -197,9 +173,6 @@
       data-key="2"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '2')"
-      @mousedown="startRepeating('inputValuePanel', '2')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       2
       <texture-panel
@@ -212,9 +185,6 @@
       data-key="3"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '3')"
-      @mousedown="startRepeating('inputValuePanel', '3')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       3
       <texture-panel
@@ -239,9 +209,6 @@
       data-key="("
       class="btn-cal btn-primary shadow-btn-primary tracking-[0.08em] text-3xl"
       @click="handleClick('operand', 'inputValuePanel', '(')"
-      @mousedown="startRepeating('inputValuePanel', '(')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       (
       <texture-panel
@@ -254,9 +221,6 @@
       data-key=")"
       class="btn-cal btn-primary shadow-btn-primary tracking-[0.08em] text-3xl"
       @click="handleClick('operand', 'inputValuePanel', ')')"
-      @mousedown="startRepeating('inputValuePanel', ')')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       )
       <texture-panel
@@ -269,9 +233,6 @@
       data-key="0"
       class="btn-cal btn-primary shadow-btn-primary"
       @click="handleClick('operand', 'inputValuePanel', '0')"
-      @mousedown="startRepeating('inputValuePanel', '0')"
-      @mouseup="stopRepeating"
-      @mouseleave="stopRepeating"
     >
       0
       <texture-panel
@@ -520,11 +481,8 @@
           return this.emitClearValuesPanel()
         }
         // pisahkan berdasarkan operator
-        console.log(newValue)
         let parts = newValue.split(/[+\-*/()]/)
         let lastPart = parts[parts.length - 1]
-        console.log(parts)
-        console.log(lastPart.length)
 
         // Jika bagian terakhir adalah 0  atau panjang operand lebih dari 16 dan val bukan koma
         if (

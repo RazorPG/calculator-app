@@ -27,6 +27,9 @@
             <span v-else>{{ char.value }}</span>
           </span>
         </div>
+        <span
+          class="w-full absolute h-full bg-glassInput rotate-45 blur-3xl right-0 top-0 pointer-events-none"
+        ></span>
       </div>
       <calc-control-panel
         @updateDisplayValue="emitUpdateDisplayValue"
@@ -56,7 +59,7 @@
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
   export default {
-    name: 'Layout',
+    name: 'Calculator',
     components: {
       CalcControlPanel,
       FontAwesomeIcon,

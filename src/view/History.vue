@@ -142,7 +142,6 @@
             .join(' ')
 
           let resultString = ''
-          console.log(result)
           if (result.length > 1) {
             let resultSymbol = result[1].symbol
             let resultValue = result[2].value
@@ -151,7 +150,6 @@
             resultString = result[0].value
           }
 
-          console.log('copyHistory called with index:', index)
           // Buat string lengkap dengan hasil
           let finalString = `${calculationString} = ${resultString}`
 
