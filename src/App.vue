@@ -1,29 +1,32 @@
 <template>
-  <Transition name="route">
-    <router-view
-      :displayValueLayout="displayValue"
-      :historyLayout="history"
-      :statusCalculationLayout="statusCalculation"
-      :nextInputLayout="clearNextInput"
-      :formattedDisplayLayout="formattedDisplayValue"
-      @updateDisplayValueApp="updateDisplayValueApp"
-      @updateStatusCalculationApp="updateStatusCalculation"
-      @updateNextInputApp="statusNextInput"
-      @clearAllValuesApp="clearAllValues"
-      @updateFormattedDisplayApp="updateFormattedDisplayValue"
-    />
-  </Transition>
+  <div id="app">
+    <Transition name="route">
+      <router-view
+        :displayValueLayout="displayValue"
+        :historyLayout="history"
+        :statusCalculationLayout="statusCalculation"
+        :nextInputLayout="clearNextInput"
+        :formattedDisplayLayout="formattedDisplayValue"
+        @updateDisplayValueApp="updateDisplayValueApp"
+        @updateStatusCalculationApp="updateStatusCalculation"
+        @updateNextInputApp="statusNextInput"
+        @clearAllValuesApp="clearAllValues"
+        @updateFormattedDisplayApp="updateFormattedDisplayValue"
+      />
+    </Transition>
+    <Footer />
+  </div>
 </template>
 
 <script>
   import { onMounted, watch } from 'vue'
   import { useRoute } from 'vue-router'
-  // import Footer from './components/Footer.vue'
+  import Footer from './components/Footer.vue'
   export default {
     name: 'App',
-    // components: {
-    //   Footer,
-    // },
+    components: {
+      Footer,
+    },
     data: function () {
       return {
         displayValue: '',
