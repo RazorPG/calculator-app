@@ -1,10 +1,13 @@
 <template>
-  <section class="w-full z-30">
+  <div
+    ref="container"
+    class="py-16 z-30 flex flex-col items-center gap-5 min-h-[100vh]"
+  >
     <div
       class="container relative p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2 after:w-28 after:absolute after:h-28 after:rounded-full after:bg-glassInput overflow-hidden after:blur-[80px] after:left-12 after:top-32"
     >
       <div
-        class="my-2 mb-4 h-full overflow-x-hidden overflow-hidden relative z-50 shadow-inner-input rounded-lg"
+        class="my-2 mb-4 h-full columns-1 overflow-x-hidden overflow-hidden relative z-50 shadow-inner-input rounded-lg"
       >
         <div
           ref="input"
@@ -43,26 +46,46 @@
         :statusCalculation="statusCalculationLayout"
       />
     </div>
-    <router-link to="/history" v-show="historyLayout.length">
+
+    <router-link
+      to="/history"
+      @click="handleRouteChange"
+      v-show="historyLayout.length"
+    >
       <font-awesome-icon
         icon="angles-down"
-        class="text-white font-bold uppercase size-16 md:size-20 lg:size-24"
+        class="text-white font-bold uppercase size-16 md:size-20 lg:size-24 animate-bounce"
       />
     </router-link>
-  </section>
-  <Footer />
+  </div>
 </template>
 
 <script>
   import CalcControlPanel from '@/components/CalcControlPanel.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-  import Footer from '@/components/Footer.vue'
   export default {
     name: 'Calculator',
     components: {
       CalcControlPanel,
       FontAwesomeIcon,
-      Footer,
+    },
+    data() {
+      return {
+        animationDuration: 500,
+      }
+    },
+    beforeRouteLeave(to, from, next) {
+      const container = this.$refs.container
+
+      // Tambahkan kelas animasi
+      document.body.classList.add('overflow-hidden')
+      container.classList.add('animate__animated', 'animate__bounceOut')
+
+      // Tunggu animasi selesai sebelum melanjutkan navigasi
+      setTimeout(() => {
+        next()
+        document.body.classList.remove('overflow-hidden')
+      }, this.animationDuration)
     },
     emits: [
       'updateDisplayValueApp',
@@ -79,6 +102,17 @@
       formattedDisplayLayout: Array,
     },
     methods: {
+      handleRouteChange() {
+        const container = this.$refs.container
+        document.body.classList.add('overflow-hidden')
+        container.classList.add('animate__animated', 'animate__bounceOut')
+
+        setTimeout(() => {
+          // Lanjutkan navigasi setelah animasi selesai
+          this.$router.push('/history')
+          document.body.classList.remove('overflow-hidden')
+        }, this.animationDuration)
+      },
       emitUpdateDisplayValue(newVal) {
         this.$emit('updateDisplayValueApp', newVal)
       },
@@ -99,28 +133,38 @@
 </script>
 
 <style scoped>
-  h1::after {
-  content: attr(data-content)
-}
-  /* width */
-.scrollbar-input::-webkit-scrollbar {
-  width: 10px;
-  height: 100%;
-}
-/* Track */
-.scrollbar-input::-webkit-scrollbar-track {
-  background: transparent; 
-  border-radius: 10px;
-}
- 
-/* Handle */
-.scrollbar-input::-webkit-scrollbar-thumb:focus {
-  background: #888; 
-  border-radius: 10px;
+  @keyframes holeCalc {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(35deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
 }
 
-/* Handle on hover */
-.scrollbar-input::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+.animate-calculator {
+  animation: holeCalc 1s ease forwards;
 }
+
+  /* width */
+  .scrollbar-input::-webkit-scrollbar {
+    width: 10px;
+    height: 100%;
+  }
+  /* Track */
+  .scrollbar-input::-webkit-scrollbar-track {
+    background: transparent; 
+    border-radius: 10px;
+  }
+  /* Handle */
+  .scrollbar-input::-webkit-scrollbar-thumb:focus {
+    background: #888; 
+    border-radius: 10px;
+  }
+  /* Handle on hover */
+  .scrollbar-input::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
 </style>

@@ -63,8 +63,16 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2c4442",endColorstr="#0c4041",GradientType=1);
 }
 
-.animation-cursor {
+    .animation-cursor {
     position: relative;
+    }
+
+  .animate-bounce {
+    animation: bounceArr 2s infinite;
+  }
+
+  .animate-zoom-out {
+    animation: zoomOut 1s ease forwards;
   }
   
   .animation-cursor::after {
@@ -87,6 +95,24 @@
     50% {
       top: 50%;
       height: 0;
+    }
+  }
+
+  @keyframes zoomOut {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(0);
+    }
+  }
+
+  @keyframes bounceArr {
+    0%, 100% {
+      transform: translateY(-10px)
+    }
+    50% {
+      transform: translateY(10px);
     }
   }
 

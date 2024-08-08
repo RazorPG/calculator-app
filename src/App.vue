@@ -1,10 +1,5 @@
 <template>
-  <transition
-    name="fade"
-    @before-enter="beforeEnter"
-    @enter="enter"
-    @leave="leave"
-  >
+  <Transition name="route">
     <router-view
       :displayValueLayout="displayValue"
       :historyLayout="history"
@@ -17,15 +12,18 @@
       @clearAllValuesApp="clearAllValues"
       @updateFormattedDisplayApp="updateFormattedDisplayValue"
     />
-  </transition>
+  </Transition>
 </template>
 
 <script>
-  import { defineComponent } from 'vue'
   import { onMounted, watch } from 'vue'
   import { useRoute } from 'vue-router'
-  export default defineComponent({
+  // import Footer from './components/Footer.vue'
+  export default {
     name: 'App',
+    // components: {
+    //   Footer,
+    // },
     data: function () {
       return {
         displayValue: '',
@@ -77,24 +75,12 @@
       updateFormattedDisplayValue(newVal) {
         this.formattedDisplayValue = newVal
       },
-      beforeEnter(el) {
-        el.classList.add('animate__animated', 'animate__fadeIn')
-      },
-      enter(el, done) {
-        el.classList.add('animate__animated', 'animate__fadeIn')
-        done()
-      },
-      leave(el, done) {
-        el.classList.add('animate__animated', 'animate__fadeOut')
-        done()
-      },
     },
-  })
+  }
 </script>
 
 <style>
   body {
-  padding: 2rem 0;
   text-align: center;
   background-size: 100% 200%;
   background-repeat: no-repeat;
@@ -103,15 +89,21 @@
   position: relative;
   transition: background 1s ease-in;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0;
-}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.route-enter-from, .route-leave-to {
+  opacity: 0;
+  transform: scale(0);
+}
+.route-enter-to, .route-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.route-enter-active, .route-leave-active {
+  transition: all 0.5s 1s ease
 }
 </style>
