@@ -1,22 +1,32 @@
 <template>
+  <router-link to="/">
+    <font-awesome-icon
+      icon="angles-up"
+      class="text-white font-bold uppercase size-16 md:size-20 lg:size-24"
+    />
+  </router-link>
   <section
-    class="mb-4 text-start mx-auto max-w-[30rem] bg-color-primary px-4 pb-8 pt-4 rounded-lg shadow-inner-calc"
+    class="mb-4 text-start mx-auto max-w-[23rem] md:max-w-[30rem] lg:max-w-[36rem] bg-main px-4 pb-8 pt-4 rounded-lg border-2 md:border-4 border-slate-300"
   >
-    <h1 class="text-center mb-5 text-3xl text-white font-head tracking-widest">
+    <h1
+      class="text-center mb-5 text-3xl md:text-4xl lg:text-5xl text-white font-head tracking-widest"
+    >
       HISTORY
     </h1>
-    <div class="text-lg text-start flex flex-col gap-2">
+    <div class="text-lg md:text-xl text-start flex flex-col gap-2">
       <div
         v-for="(historyItem, index) in historyLayout"
         :key="index"
-        class="text-white bg-color-secondary w-full p-3 rounded-lg flex justify-between items-center"
+        class="text-white bg-color-secondary w-full p-1 rounded-lg flex gap-1 justify-between items-center"
       >
         <span
-          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 shrink-0 font-bold"
+          class="bg-color-third text-black py-2 px-4 md:py-3 md:px-5 rounded-lg me-2 font-bold flex-shrink-0"
           >{{ index + 1 }}</span
         >
-        <div class="w-full">
-          <div class="inline-block text-sm">
+        <div class="flex-1 min-w-0">
+          <div
+            class="text-nowrap overflow-hidden text-[12px] md:text-lg whitespace-nowrap text-ellipsis"
+          >
             <template
               v-for="(calculationItem, subIndex) in historyItem.format
                 .calculation"
@@ -31,7 +41,9 @@
               <span v-else>{{ calculationItem.value }}</span>
             </template>
           </div>
-          <div class="block font-bold">
+          <div
+            class="block text-sm md:text-2xl font-bold whitespace-nowrap overflow-hidden text-ellipsis"
+          >
             <template
               v-for="(resultItem, resIndex) in historyItem.format.result"
               :key="resIndex"
@@ -46,13 +58,13 @@
           </div>
         </div>
         <button
-          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 hover:text-white hover:bg-slate-700 shadow-xl"
+          class="bg-color-third text-black py-2 px-4 md:py-3 md:px-5 rounded-lg hover:text-white hover:bg-slate-700 shadow-xl shrink-0"
           @click="copyHistory(index)"
         >
           <font-awesome-icon icon="clone" size="sm" />
         </button>
         <button
-          class="bg-color-third text-black py-3 px-5 rounded-lg me-2 hover:text-white hover:bg-slate-700 shadow-xl"
+          class="bg-color-third text-black py-2 px-4 md:py-3 md:px-5 rounded-lg hover:text-white hover:bg-slate-700 shadow-xl shrink-0"
           @click="openModal(index)"
         >
           <font-awesome-icon icon="trash-can" size="sm" />
@@ -60,12 +72,7 @@
       </div>
     </div>
   </section>
-  <router-link
-    to="/"
-    class="bg-color-primary uppercase rounded-lg text-white p-6"
-  >
-    <button aria-label="to-home">back to app</button>
-  </router-link>
+  <Footer />
   <modal-delete
     :modal="open"
     :index-modal="deleteIndex"
@@ -78,12 +85,13 @@
   import Swal from 'sweetalert2'
   import ModalDelete from '@/components/ModalDelete.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
+  import Footer from '@/components/Footer.vue'
   export default {
     name: 'history',
     components: {
       FontAwesomeIcon,
       ModalDelete,
+      Footer,
     },
     data() {
       return {
@@ -94,26 +102,28 @@
     props: ['historyLayout'],
     methods: {
       showNotivicationSuccess() {
-        Swal.fire({
-          icon: 'success',
-          title: `History copied successfully`,
-          showConfirmButton: false,
-          timer: 1800,
-          showClass: {
-            popup: `
-      animate__animated
-      animate__fadeInUp
-      animate__faster
-    `,
-          },
-          hideClass: {
-            popup: `
-      animate__animated
-      animate__fadeOutDown
-      animate__faster
-    `,
-          },
-        })
+        if (window.innerWidth >= 1024) {
+          Swal.fire({
+            icon: 'success',
+            title: `History copied successfully`,
+            showConfirmButton: false,
+            timer: 1800,
+            showClass: {
+              popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+      `,
+            },
+            hideClass: {
+              popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+      `,
+            },
+          })
+        }
       },
       openModal(index) {
         this.open = true

@@ -11,9 +11,9 @@ export const soundMixin = {
         }
     },
     methods: {
-      playClickSound(sound) {
+     async playClickSound(sound) {
         const audio = new Audio(this.audioFiles[sound]);
-            audio.play();
+           await audio.play();
      },
   }
 }

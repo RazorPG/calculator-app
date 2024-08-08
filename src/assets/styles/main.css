@@ -13,6 +13,17 @@
     src: url('@/assets/fonts/ICARubrikBold.ttf') format('truetype');
 }
 
+.bg-default {
+    background-image: url('../images/real.webp');
+    background-position:top;
+    min-height: 100vh;
+}
+.bg-history {
+    background-image: url('../images/real.webp');
+    min-height: 100vh;
+    background-position:bottom;
+}
+
 .font-calculator {
     font-family: 'Calculator', serif;
 }
@@ -35,6 +46,21 @@
 
 .btn-3d {
     @apply p-4 border-2 border-[rgba(0,168,143,1)] bg-color-secondary rounded-lg relative uppercase mt-4 transition-all duration-100 ease-in active:shadow-none active:translate-y-2 font-bold text-white shadow-btn-secondary;
+}
+
+.bg-main {
+    background: rgb(42,69,78);
+    background: -moz-linear-gradient(0deg, rgba(42,69,78,1) 0%, rgba(8,69,77,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(42,69,78,1) 0%, rgba(8,69,77,1) 100%);
+    background: linear-gradient(0deg, rgba(42,69,78,1) 0%, rgba(8,69,77,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2a454e",endColorstr="#08454d",GradientType=1);
+}
+.bg-router {
+    background: rgb(44,68,66);
+    background: -moz-linear-gradient(0deg, rgba(44,68,66,1) 0%, rgba(12,64,65,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(44,68,66,1) 0%, rgba(12,64,65,1) 100%);
+    background: linear-gradient(0deg, rgba(44,68,66,1) 0%, rgba(12,64,65,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2c4442",endColorstr="#0c4041",GradientType=1);
 }
 
 .animation-cursor {

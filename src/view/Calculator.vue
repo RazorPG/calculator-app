@@ -1,7 +1,7 @@
 <template>
   <section class="w-full z-30">
     <div
-      class="container relative p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2"
+      class="container relative p-4 pb-10 bg-color-primary mx-auto max-w-[20rem] md:max-w-[25rem] rounded-xl shadow-inner-calc mb-2 after:w-28 after:absolute after:h-28 after:rounded-full after:bg-glassInput overflow-hidden after:blur-[80px] after:left-12 after:top-32"
     >
       <div
         class="my-2 mb-4 h-full overflow-x-hidden overflow-hidden relative z-50 shadow-inner-input rounded-lg"
@@ -27,9 +27,9 @@
             <span v-else>{{ char.value }}</span>
           </span>
         </div>
-        <!-- <span
+        <span
           class="w-full absolute h-full bg-glassInput rotate-45 blur-3xl right-0 top-0 pointer-events-none"
-        ></span> -->
+        ></span>
       </div>
       <calc-control-panel
         @updateDisplayValue="emitUpdateDisplayValue"
@@ -44,25 +44,25 @@
       />
     </div>
     <router-link to="/history" v-show="historyLayout.length">
-      <button
-        class="bg-slate-700 uppercase rounded-lg text-white p-6"
-        aria-label="go-to-history"
-      >
-        go to History
-      </button>
+      <font-awesome-icon
+        icon="angles-down"
+        class="text-white font-bold uppercase size-16 md:size-20 lg:size-24"
+      />
     </router-link>
   </section>
+  <Footer />
 </template>
 
 <script>
   import CalcControlPanel from '@/components/CalcControlPanel.vue'
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
+  import Footer from '@/components/Footer.vue'
   export default {
     name: 'Calculator',
     components: {
       CalcControlPanel,
       FontAwesomeIcon,
+      Footer,
     },
     emits: [
       'updateDisplayValueApp',

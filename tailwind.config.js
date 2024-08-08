@@ -20,9 +20,6 @@ module.exports = {
         'modal' : 'rgba(0, 0, 0, 0.5)',
         'glassInput' : 'rgba(255, 255, 255, 0.8)'
       },
-      backgroundImage: {
-        'calculator' : "linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255, 1) 0%, rgba(0,0,0,) 120%) #989898"
-      },
       textColor: {
         'color-primary' :'#005a48',
       },
